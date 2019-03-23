@@ -56,7 +56,9 @@ class Task:
         return self.__id
 
     def __str__(self):
-        return self.__name
+        return [self.__name, self.__note, self.__start_date, self.__end_date, self.__status]
 
     def __repr__(self):
         return f'{self.__name}: {self.__id}'
+
+

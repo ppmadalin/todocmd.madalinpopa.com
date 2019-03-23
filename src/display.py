@@ -29,6 +29,21 @@ def generate_menu(menus):
     print(f'+ {"+":+>48s}')
 
 
+def get_input():
+    """
+    get the user input
+    :return: None
+    """
+    user_input = input("Chose an action > ")
+    if user_input.isdigit() and int(user_input) <= 5:
+        return int(user_input)
+    else:
+        print("Invalid option")
+        os.system('cls' if os.name == 'nt' else 'clear')
+        prompt()
+        return None
+
+
 def prompt():
     os.system('cls' if os.name == 'nt' else 'clear')
     header()
