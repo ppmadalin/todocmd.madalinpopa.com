@@ -8,29 +8,80 @@ from src.command import Command
 
 @pytest.fixture
 def resource():
+    """ Initiate a command with a list of two tasks """
     task1 = Task('task1', 'task1 note', date.today(), date.today())
-    com = Command('task')
+    task2 = Task('Task2', 'task2 note', date.today(), date.today())
+    com = Command([task1, task2])
     return com
 
 
 def test_init_command(resource):
-    tasks = Command('test')
-    assert isinstance(tasks, Command)
+    """ test if the resource is instance of Command """
+    assert isinstance(resource, Command)
 
 
 def test_add_task_command(resource):
+    """ returns Task if the task is added """
+    # create a task
+    task = Task('task name', 'task note', date.today(), date.today())
+
     # set the expected result
-    expected = "test"
+    expected = task
 
-    # create mock object for add_task function
-    # add_task_mock = mocker.patch.object(Command, "add_task")
+    # should return task
+    assert expected == resource.add(task)
 
-    # set the returned value
-    # add_task_mock.return_value = expected
 
-    # initiate the class
-    # comm = Command('test')
+def test_get_all_tasks_command(resource):
+    """ test if returns a list of tasks """
+    # get all taks
+    tasks = resource.tasks
 
-    # call the function
-    # add_task_mock.assert_any_call('test', 'test')
-    assert expected == resource.add_task('test')
+    # check how many tasks are in list
+    assert len(tasks) == 2
+
+    # check if each task is instance of Task
+    for task in tasks:
+        assert isinstance(task, Task)
+
+
+def test_get_task_command(resource):
+    """ returns a task from list """
+    # create a task
+    task = Task('Task name', 'task note', date.today(), date.today())
+
+    # add task
+    resource.add(task)
+
+    # get the task
+    assert resource.get(task) == task
+
+
+def test_update_task_command(resource):
+    """ return task that was edited """
+    # get a task
+    task = resource.tasks[0]
+
+    # change the task
+    task.name = 'Changed Task'
+
+    # update task
+    changed_task = resource.update(task)
+
+    # check task name
+    assert changed_task.name == 'Changed Task'
+
+
+def test_delete_task_command(resource):
+    """ Test if task deletion works """
+    # get a task
+    task = resource.tasks[0]
+
+    # delete task
+    deleted_task = resource.delete(task)
+
+    # check lenght of list with all tasks
+    assert len(resource.tasks) < 2
+
+    # check if returned taks is the same as given task
+    assert deleted_task.id == task.id

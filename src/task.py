@@ -9,7 +9,7 @@ class Task:
         self.__start_date = start_date
         self.__end_date = end_date
         self.__status = status
-        self.__id = uuid.uuid4()
+        self.__id = str(uuid.uuid4())
 
     @property
     def name(self):
@@ -51,5 +51,12 @@ class Task:
     def status(self, value):
         self.__status = value
 
-    def get_id(self):
+    @property
+    def id(self):
         return self.__id
+
+    def __str__(self):
+        return self.__name
+
+    def __repr__(self):
+        return f'{self.__name}: {self.__id}'
