@@ -3,7 +3,7 @@ import uuid
 
 
 class Task:
-    def __init__(self, name, note, start_date, end_date, status):
+    def __init__(self, name, note, start_date, end_date, status=False):
         self.__name = name
         self.__note = note
         self.__start_date = start_date

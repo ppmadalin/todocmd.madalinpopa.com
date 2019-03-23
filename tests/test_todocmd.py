@@ -1,11 +1,14 @@
 # test_todocmd.py
 
-from src.command import Command
 import pytest
+from datetime import date
+from src.task import Task
+from src.command import Command
 
 
 @pytest.fixture
 def resource():
+    task1 = Task('task1', 'task1 note', date.today(), date.today())
     com = Command('task')
     return com
 
