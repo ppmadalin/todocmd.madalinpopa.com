@@ -3,16 +3,26 @@ from task import Task
 
 
 class Command:
+
+    supported_commands = {
+        1: 'Add task',
+        2: 'Edit task',
+        3: 'Delete task',
+        4: 'List all tasks',
+        5: 'Save/Exit',
+
+    }
+
     def __init__(self, task_list):
-        self.tasks = task_list
+        self.__tasks = task_list
 
     @property
     def tasks(self):
-        return self._tasks
+        return self.__tasks
 
     @tasks.setter
     def tasks(self, value):
-        self._tasks = value
+        self.__tasks = value
 
     def add(self, task):
         """ add a task in tasks """

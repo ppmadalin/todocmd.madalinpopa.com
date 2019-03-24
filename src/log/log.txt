@@ -3,4 +3,6 @@ todocmd - DEBUG - tasks were loaded
 todocmd - DEBUG - tasks were loaded
 todocmd - DEBUG - tasks were loaded
 todocmd - DEBUG - tasks were loaded
-todocmd - DEBUG - taks were written
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded

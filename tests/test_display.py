@@ -1,7 +1,6 @@
 # test_display.py
-import pytest
 from src import display
-
+import pytest
 
 @pytest.mark.skip
 def test_header(capfd):

@@ -4,6 +4,7 @@ from pathlib import Path
 from task import Task
 from command import Command
 from exception import InvalidTaskNumber
+from exception import InvalidOption
 import display
 import logging
 import csv
@@ -49,7 +50,7 @@ def load_tasks(logger):
 
 def add_task(logger, user_input, command):
     """ Adds a new task in list """
-    if user_input == 1:
+    if Command.supported_commands.get(user_input):
         task_name = input('Task: ')
         task_note = input('Notes: ')
         start_date = input('Start date (year-month-day): ')
@@ -60,7 +61,7 @@ def add_task(logger, user_input, command):
 
 def update_task(logger, user_input, command):
     """ Updates an existing task """
-    if user_input == 2:
+    if Command.supported_commands.get(user_input):
         display.prompt()
         display.task_header()
         display.display_tasks(command.tasks)
@@ -86,20 +87,22 @@ def update_task(logger, user_input, command):
             print(e)
 
 
-def delete_task(logger, user_input, tasks_list, command):
-    pass
+def delete_task(logger, user_input, command):
+    """ Delete a task """
+    if Command.supported_commands.get(user_input):
+        pass
 
 
 def list_tasks(user_input, command):
     """ Lists all tasks """
-    if user_input == 4:
+    if Command.supported_commands.get(user_input):
         display.task_header()
         display.display_tasks(command.tasks)
 
 
 def save_task(logger, user_input, command):
     """ Save task and exit """
-    if user_input == 5:
+    if Command.supported_commands.get(user_input):
         with open(DATA_FILE, mode='w', newline="") as f:
             write = csv.writer(f, delimiter=',')
             for task in command.tasks:
@@ -126,7 +129,11 @@ def main():
     display.prompt()
 
     while True:
-        user_input = display.get_input()
+        try:
+            user_input = display.get_input()
+        except InvalidOption as e:
+            display.prompt()
+            print(e)
 
         # Add a new task
         add_task(logger, user_input, command)
@@ -135,6 +142,7 @@ def main():
         update_task(logger, user_input, command)
 
         # Delete task
+        delete_task(logger, user_input, command)
 
         # List all tasks
         list_tasks(user_input, command)

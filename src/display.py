@@ -1,6 +1,8 @@
 # display.py
 """ Module which hold the display functions """
 import os
+from command import Command
+from exception import InvalidOption
 
 
 def header():
@@ -22,7 +24,7 @@ def generate_menu(menus):
     """
     print(f'+ {"+":>48s}')
     for key, value in menus.items():
-        menu = ''.join(key) + '. ' + value
+        menu = ''.join(str(key)) + '. ' + value
         length = len(menu) + 5
         print(f'+ {menu:>{length}} {"+":>{47 - length}}')
     print(f'+ {"+":>48s}')
@@ -35,23 +37,19 @@ def get_input():
     :return: None
     """
     user_input = input("Chose an action >>> ")
-    if user_input.isdigit() and int(user_input) <= 5:
-        return int(user_input)
-    else:
-        print("Invalid option")
-        os.system('cls' if os.name == 'nt' else 'clear')
-        prompt()
-        return None
+    if not user_input.isdigit():
+        raise InvalidOption('Please select a valid menu option')
+    if int(user_input) > len(Command.supported_commands):
+        message = f'You have available only {len(Command.supported_commands)}'
+        raise InvalidOption(message)
+    prompt()
+    return int(user_input)
 
 
 def prompt():
     os.system('cls' if os.name == 'nt' else 'clear')
     header()
-    generate_menu({'1': 'Add task',
-                   '2': 'Edit task',
-                   '3': 'Delete task',
-                   '4': 'List all tasks',
-                   '5': 'Save/Exit'})
+    generate_menu(Command.supported_commands)
 
 
 def task_header():
