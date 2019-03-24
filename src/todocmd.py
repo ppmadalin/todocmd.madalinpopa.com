@@ -1,9 +1,10 @@
 # todocmd.py
 # the main file with the entry point
 from pathlib import Path
-from src.task import Task
-from src.command import Command
-from src import display
+from task import Task
+from command import Command
+from exception import InvalidTaskNumber
+import display
 import logging
 import csv
 import sys
@@ -46,7 +47,7 @@ def main():
                                 row[2],
                                 row[3],
                                 row[4],)
-                    logger.debug(f'{len(reader)} tasks were loaded')
+                    logger.debug(f'tasks were loaded')
                     tasks_list.append(task)
 
     # STEP 4: initiate commands with the task lists
@@ -56,6 +57,8 @@ def main():
     display.prompt()
     while True:
         user_input = display.get_input()
+
+        # add task
         if user_input == 1:
             task_name = input('Task: ')
             task_note = input('Notes: ')
@@ -63,10 +66,29 @@ def main():
             due_date = input('Due date (year-month-day): ')
             task = Task(task_name, task_note, start_date, due_date)
             command.add(task)
+
+        # update task
+        elif user_input == 2:
+            display.task_header()
+            display.display_tasks(tasks_list)
+            while True:
+                try:
+                    task_input = int(input('Chose a task > '))
+                    break
+                except InvalidTaskNumber:
+                    print('Invalid task number')
+
+       # save and exit app
         elif user_input == 5:
             with open(DATA_FILE, mode='w', newline="") as f:
                 write = csv.writer(f, delimiter=',')
-                write.writerow(tasks_list)
+                for task in tasks_list:
+                    row = [task.name,
+                           task.note,
+                           task.start_date,
+                           task.end_date,
+                           task.status, ]
+                    write.writerow(row)
             logger.debug("taks were written")
             sys.exit(0)
 

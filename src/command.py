@@ -1,5 +1,6 @@
 # command.py
-from src.task import Task
+from task import Task
+
 
 class Command:
     def __init__(self, task_list):

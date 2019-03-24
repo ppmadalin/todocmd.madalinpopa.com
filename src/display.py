@@ -52,3 +52,23 @@ def prompt():
                    '3': 'Delete task',
                    '4': 'List all tasks',
                    '5': 'Exit'})
+
+
+def task_header():
+    """ Display the task heaser """
+    print(f'{"No.":<15}{"Task":<15}{"Start":<15}{"Due":<15}{"Status":<15}')
+    print(f'{"=":=<15}{"=":=<15}{"=":=<15}{"=":=<15}{"=":=<15}')
+
+
+def display_tasks(task_list):
+    """ Display the task list """
+    for nr, task in enumerate(task_list):
+        name = task.name
+        start = task.start_date
+        due = task.end_date
+        status = task.status
+        print(f'{nr:<15}{name:<15}{start:<15}{due:<15}{status:<15}')
+
+
+if __name__ == '__main__':
+    task_header()

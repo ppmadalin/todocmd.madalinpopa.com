@@ -1,0 +1,4 @@
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - taks were written
