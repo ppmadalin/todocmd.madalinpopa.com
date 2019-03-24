@@ -3,11 +3,12 @@
 from pathlib import Path
 from task import Task
 from command import Command
-# from exception import InvalidTaskNumber
+from exception import InvalidTaskNumber
 import display
 import logging
 import csv
 import sys
+
 
 # set the paths
 BASEDIR = Path(__file__).parent
@@ -23,16 +24,9 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(name)s - %(levelname)s - %(message)s')
 
 
-# main entry point
-def main():
-
-    # STEP 1: define my logger.
-    logger = logging.getLogger('todocmd')
-
-    # STEP 2: initiate which will hold the tasks
+def load_tasks(logger):
+    """ Loads task and create the tasks.csv file if not exists """
     tasks_list = []
-
-    # STEP 3: create task.csv file and load the tasks in list
     if not Path(DATA_FILE).exists():
         with open(DATA_FILE, mode='w'):
             logger.debug(f'file: {DATA_FILE} was created')
@@ -49,57 +43,104 @@ def main():
                                 row[4],)
                     logger.debug(f'tasks were loaded')
                     tasks_list.append(task)
+            return tasks_list
+    return None
 
-    # STEP 4: initiate commands with the task lists
-    command = Command(tasks_list)
 
-    # STEP 5: display the promopt and listen for user input
+def add_task(logger, user_input, command):
+    """ Adds a new task in list """
+    if user_input == 1:
+        task_name = input('Task: ')
+        task_note = input('Notes: ')
+        start_date = input('Start date (year-month-day): ')
+        due_date = input('Due date (year-month-day): ')
+        task = Task(task_name, task_note, start_date, due_date)
+        command.add(task)
+
+
+def update_task(logger, user_input, command):
+    """ Updates an existing task """
+    if user_input == 2:
+        display.prompt()
+        display.task_header()
+        display.display_tasks(command.tasks)
+        try:
+            task_number = input('Chose a task >>>')
+            if not task_number.isdigit():
+                raise(InvalidTaskNumber('Please pick a number..'))
+            if int(task_number) >= len(command.tasks):
+                message = f'Pick a task between 0 and {len(command.tasks)}'
+                raise(InvalidTaskNumber(message))
+            task_name = input('Task name: ')
+            task_note = input('Task note: ')
+            task_start = input('Start date: ')
+            task_due = input('Due date: ')
+            task = command.get(len(task_number))
+            task.name = task_name
+            task.note = task_note
+            task.start_date = task_start
+            task.end_date = task_due
+            command.update(task)
+        except InvalidTaskNumber as e:
+            display.prompt()
+            print(e)
+
+
+def delete_task(logger, user_input, tasks_list, command):
+    pass
+
+
+def list_tasks(user_input, command):
+    """ Lists all tasks """
+    if user_input == 4:
+        display.task_header()
+        display.display_tasks(command.tasks)
+
+
+def save_task(logger, user_input, command):
+    """ Save task and exit """
+    if user_input == 5:
+        with open(DATA_FILE, mode='w', newline="") as f:
+            write = csv.writer(f, delimiter=',')
+            for task in command.tasks:
+                row = [task.name,
+                       task.note,
+                       task.start_date,
+                       task.end_date,
+                       task.status, ]
+                write.writerow(row)
+        logger.debug("taks were written")
+        sys.exit(0)
+
+
+# main entry point
+def main():
+
+    # STEP 1: define my logger.
+    logger = logging.getLogger('todocmd')
+
+    # STEP 2: initiate which will hold the tasks
+    command = Command(load_tasks(logger))
+
+    # STEP 4: display the promopt and listen for user input
     display.prompt()
+
     while True:
         user_input = display.get_input()
 
-        # add task
-        if user_input == 1:
-            task_name = input('Task: ')
-            task_note = input('Notes: ')
-            start_date = input('Start date (year-month-day): ')
-            due_date = input('Due date (year-month-day): ')
-            task = Task(task_name, task_note, start_date, due_date)
-            command.add(task)
+        # Add a new task
+        add_task(logger, user_input, command)
 
-        # update task
-        elif user_input == 2:
-            display.task_header()
-            display.display_tasks(tasks_list)
-            # while True:
-            #     try:
-            #         task_input = int(input('Chose a task > '))
-            #         break
-            #     except InvalidTaskNumber:
-            #         print('Invalid task number')
+        # Update task
+        update_task(logger, user_input, command)
 
-        # delete task
-        elif user_input == 3:
-            pass
+        # Delete task
 
-        # list all tasks
-        elif user_input == 4:
-            display.task_header()
-            display.display_tasks(tasks_list)
+        # List all tasks
+        list_tasks(user_input, command)
 
         # save and exit app
-        elif user_input == 5:
-            with open(DATA_FILE, mode='w', newline="") as f:
-                write = csv.writer(f, delimiter=',')
-                for task in tasks_list:
-                    row = [task.name,
-                           task.note,
-                           task.start_date,
-                           task.end_date,
-                           task.status, ]
-                    write.writerow(row)
-            logger.debug("taks were written")
-            sys.exit(0)
+        save_task(logger, user_input, command)
 
 
 if __name__ == '__main__':

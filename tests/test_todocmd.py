@@ -2,8 +2,8 @@
 
 import pytest
 from datetime import date
-from src.task import Task
 from src.command import Command
+from src.task import Task
 
 
 @pytest.fixture
@@ -48,13 +48,10 @@ def test_get_all_tasks_command(resource):
 def test_get_task_command(resource):
     """ returns a task from list """
     # create a task
-    task = Task('Task name', 'task note', date.today(), date.today())
-
-    # add task
-    resource.add(task)
+    task = resource.get(1)
 
     # get the task
-    assert resource.get(task) == task
+    assert isinstance(task, Task)
 
 
 def test_update_task_command(resource):

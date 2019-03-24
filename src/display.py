@@ -34,7 +34,7 @@ def get_input():
     get the user input
     :return: None
     """
-    user_input = input("Chose an action > ")
+    user_input = input("Chose an action >>> ")
     if user_input.isdigit() and int(user_input) <= 5:
         return int(user_input)
     else:
@@ -51,13 +51,13 @@ def prompt():
                    '2': 'Edit task',
                    '3': 'Delete task',
                    '4': 'List all tasks',
-                   '5': 'Exit'})
+                   '5': 'Save/Exit'})
 
 
 def task_header():
     """ Display the task heaser """
-    print(f'{"No.":<15}{"Task":<15}{"Start":<15}{"Due":<15}{"Status":<15}')
-    print(f'{"=":=<15}{"=":=<15}{"=":=<15}{"=":=<15}{"=":=<15}')
+    print(f'{"No.":<5}{"Task":<30}{"Start":<30}{"Due":<30}{"Status":<30}')
+    print(f'{"=":=<5}{"=":=<30}{"=":=<30}{"=":=<30}{"=":=<30}')
 
 
 def display_tasks(task_list):
@@ -67,7 +67,7 @@ def display_tasks(task_list):
         start = task.start_date
         due = task.end_date
         status = task.status
-        print(f'{nr:<15}{name:<15}{start:<15}{due:<15}{status:<15}')
+        print(f'{nr:<3}{name:<30}{start:<30}{due:<30}{status:<30}')
 
 
 if __name__ == '__main__':

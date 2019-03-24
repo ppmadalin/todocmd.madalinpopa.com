@@ -21,12 +21,9 @@ class Command:
             return task
         return False
 
-    def get(self, task):
+    def get(self, index):
         """ returns a task """
-        for tk in self.tasks:
-            if tk.id == task.id:
-                return task
-        return None
+        return self.tasks[index]
 
     def update(self, task):
         """ update a task """
