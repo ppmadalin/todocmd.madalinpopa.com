@@ -3,7 +3,7 @@
 from pathlib import Path
 from task import Task
 from command import Command
-from exception import InvalidTaskNumber
+# from exception import InvalidTaskNumber
 import display
 import logging
 import csv
@@ -71,14 +71,23 @@ def main():
         elif user_input == 2:
             display.task_header()
             display.display_tasks(tasks_list)
-            while True:
-                try:
-                    task_input = int(input('Chose a task > '))
-                    break
-                except InvalidTaskNumber:
-                    print('Invalid task number')
+            # while True:
+            #     try:
+            #         task_input = int(input('Chose a task > '))
+            #         break
+            #     except InvalidTaskNumber:
+            #         print('Invalid task number')
 
-       # save and exit app
+        # delete task
+        elif user_input == 3:
+            pass
+
+        # list all tasks
+        elif user_input == 4:
+            display.task_header()
+            display.display_tasks(tasks_list)
+
+        # save and exit app
         elif user_input == 5:
             with open(DATA_FILE, mode='w', newline="") as f:
                 write = csv.writer(f, delimiter=',')
