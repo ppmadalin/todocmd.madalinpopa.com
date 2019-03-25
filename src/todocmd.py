@@ -9,6 +9,7 @@ import display
 import logging
 import csv
 import sys
+import os
 
 
 # set the paths
@@ -50,23 +51,27 @@ def load_tasks(logger):
 
 def add_task(logger, user_input, command):
     """ Adds a new task in list """
-    if Command.supported_commands.get(user_input):
+    logger.info(f'user command is {user_input}')
+    if user_input == 1:
         task_name = input('Task: ')
         task_note = input('Notes: ')
         start_date = input('Start date (year-month-day): ')
         due_date = input('Due date (year-month-day): ')
         task = Task(task_name, task_note, start_date, due_date)
         command.add(task)
+        print(f'you have added task: {task}')
+        logger.info(f'the following task was added {task}')
 
 
 def update_task(logger, user_input, command):
     """ Updates an existing task """
-    if Command.supported_commands.get(user_input):
+    logger.info(f'user command is {user_input}')
+    if user_input == 2:
         display.prompt()
         display.task_header()
         display.display_tasks(command.tasks)
         try:
-            task_number = input('Chose a task >>>')
+            task_number = input('Chose a task >>> ')
             if not task_number.isdigit():
                 raise(InvalidTaskNumber('Please pick a number..'))
             if int(task_number) >= len(command.tasks):
@@ -82,6 +87,9 @@ def update_task(logger, user_input, command):
             task.start_date = task_start
             task.end_date = task_due
             command.update(task)
+            logger.info(f'the following task was updated {task}')
+            display.prompt()
+            print(f'You have updated task: {task}')
         except InvalidTaskNumber as e:
             display.prompt()
             print(e)
@@ -89,20 +97,40 @@ def update_task(logger, user_input, command):
 
 def delete_task(logger, user_input, command):
     """ Delete a task """
-    if Command.supported_commands.get(user_input):
-        pass
+    logger.info(f'user command is {user_input}')
+    if user_input == 3:
+        display.prompt()
+        display.task_header()
+        display.display_tasks(command.tasks)
+        try:
+            task_number = input('Chose a task >>> ')
+            if not task_number.isdigit():
+                raise(InvalidTaskNumber('Please pick a number..'))
+            if int(task_number) >= len(command.tasks):
+                message = f'Pick a task between 0 and {len(command.tasks)}'
+                raise(InvalidTaskNumber(message))
+            task = command.get(len(task_number))
+            command.delete(task)
+            logger.info(f'the following task was deleted: {task}')
+            display.prompt()
+            print(f'You have deleted task {task}')
+        except InvalidTaskNumber as e:
+            display.prompt()
+            print(e)
 
 
-def list_tasks(user_input, command):
+def list_tasks(logger, user_input, command):
     """ Lists all tasks """
-    if Command.supported_commands.get(user_input):
+    logger.info(f'user command is {user_input}')
+    if user_input == 4:
         display.task_header()
         display.display_tasks(command.tasks)
 
 
 def save_task(logger, user_input, command):
     """ Save task and exit """
-    if Command.supported_commands.get(user_input):
+    logger.info(f'user command is {user_input}')
+    if user_input == 5:
         with open(DATA_FILE, mode='w', newline="") as f:
             write = csv.writer(f, delimiter=',')
             for task in command.tasks:
@@ -113,6 +141,7 @@ def save_task(logger, user_input, command):
                        task.status, ]
                 write.writerow(row)
         logger.debug("taks were written")
+        os.system('cls' if os.name == 'nt' else 'clear')
         sys.exit(0)
 
 
@@ -131,24 +160,25 @@ def main():
     while True:
         try:
             user_input = display.get_input()
+
+            # Add a new task
+            add_task(logger, user_input, command)
+
+            # Update task
+            update_task(logger, user_input, command)
+
+            # Delete task
+            delete_task(logger, user_input, command)
+
+            # List all tasks
+            list_tasks(logger, user_input, command)
+
+            # save and exit app
+            save_task(logger, user_input, command)
+
         except InvalidOption as e:
             display.prompt()
             print(e)
-
-        # Add a new task
-        add_task(logger, user_input, command)
-
-        # Update task
-        update_task(logger, user_input, command)
-
-        # Delete task
-        delete_task(logger, user_input, command)
-
-        # List all tasks
-        list_tasks(user_input, command)
-
-        # save and exit app
-        save_task(logger, user_input, command)
 
 
 if __name__ == '__main__':
