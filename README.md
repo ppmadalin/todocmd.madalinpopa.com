@@ -18,6 +18,7 @@ A user can perform the following actions:
 5. Save/Exit
 
 ## Project layout and file description
+```
 .
 ├── LICENSE               # license file 
 ├── MANIFEST.in           # used to include additional files into package
@@ -46,4 +47,4 @@ A user can perform the following actions:
     ├── test_display.py   # used to test the functions from display.py
     ├── test_task.py      # used to test task.py 
     └── test_todocmd.py   # used to test command.py 
-
+```
