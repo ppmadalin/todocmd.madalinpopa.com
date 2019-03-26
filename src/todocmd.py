@@ -1,11 +1,14 @@
 # todocmd.py
 # the main file with the entry point
+# local files import
+from src.task import Task
+from src.command import Command
+from src.exception import InvalidTaskNumber
+from src.exception import InvalidOption
+from src import display
+
+# standard lib import
 from pathlib import Path
-from task import Task
-from command import Command
-from exception import InvalidTaskNumber
-from exception import InvalidOption
-import display
 import logging
 import csv
 import sys
@@ -26,7 +29,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(name)s - %(levelname)s - %(message)s')
 
 
-def load_tasks(logger):
+def load_tasks(logger=None):
     """ Loads task and create the tasks.csv file if not exists """
     tasks_list = []
     if not Path(DATA_FILE).exists():
@@ -43,13 +46,14 @@ def load_tasks(logger):
                                 row[2],
                                 row[3],
                                 row[4],)
-                    logger.debug(f'tasks were loaded')
+                    if logger:
+                        logger.debug(f'tasks were loaded')
                     tasks_list.append(task)
             return tasks_list
     return None
 
 
-def add_task(logger, user_input, command):
+def add_task(user_input, command, logger=None):
     """ Adds a new task in list """
     logger.info(f'user command is {user_input}')
     if user_input == 1:
@@ -60,12 +64,14 @@ def add_task(logger, user_input, command):
         task = Task(task_name, task_note, start_date, due_date)
         command.add(task)
         print(f'you have added task: {task}')
-        logger.info(f'the following task was added {task}')
+        if logger:
+            logger.info(f'the following task was added {task}')
 
 
-def update_task(logger, user_input, command):
+def update_task(user_input, command, logger=None):
     """ Updates an existing task """
-    logger.info(f'user command is {user_input}')
+    if logger:
+        logger.info(f'user command is {user_input}')
     if user_input == 2:
         display.prompt()
         display.task_header()
@@ -87,7 +93,8 @@ def update_task(logger, user_input, command):
             task.start_date = task_start
             task.end_date = task_due
             command.update(task)
-            logger.info(f'the following task was updated {task}')
+            if logger:
+                logger.info(f'the following task was updated {task}')
             display.prompt()
             print(f'You have updated task: {task}')
         except InvalidTaskNumber as e:
@@ -95,9 +102,10 @@ def update_task(logger, user_input, command):
             print(e)
 
 
-def delete_task(logger, user_input, command):
+def delete_task(user_input, command, logger=None):
     """ Delete a task """
-    logger.info(f'user command is {user_input}')
+    if logger:
+        logger.info(f'user command is {user_input}')
     if user_input == 3:
         display.prompt()
         display.task_header()
@@ -111,7 +119,8 @@ def delete_task(logger, user_input, command):
                 raise(InvalidTaskNumber(message))
             task = command.get(len(task_number))
             command.delete(task)
-            logger.info(f'the following task was deleted: {task}')
+            if logger:
+                logger.info(f'the following task was deleted: {task}')
             display.prompt()
             print(f'You have deleted task {task}')
         except InvalidTaskNumber as e:
@@ -119,15 +128,16 @@ def delete_task(logger, user_input, command):
             print(e)
 
 
-def list_tasks(logger, user_input, command):
+def list_tasks(user_input, command, logger=None):
     """ Lists all tasks """
-    logger.info(f'user command is {user_input}')
+    if logger:
+        logger.info(f'user command is {user_input}')
     if user_input == 4:
         display.task_header()
         display.display_tasks(command.tasks)
 
 
-def save_task(logger, user_input, command):
+def save_task(user_input, command, logger=None):
     """ Save task and exit """
     logger.info(f'user command is {user_input}')
     if user_input == 5:
@@ -140,7 +150,8 @@ def save_task(logger, user_input, command):
                        task.end_date,
                        task.status, ]
                 write.writerow(row)
-        logger.debug("taks were written")
+        if logger:
+            logger.debug("taks were written")
         os.system('cls' if os.name == 'nt' else 'clear')
         sys.exit(0)
 
@@ -162,19 +173,19 @@ def main():
             user_input = display.get_input()
 
             # Add a new task
-            add_task(logger, user_input, command)
+            add_task(user_input, command, logger)
 
             # Update task
-            update_task(logger, user_input, command)
+            update_task(user_input, command, logger)
 
             # Delete task
-            delete_task(logger, user_input, command)
+            delete_task(user_input, command, logger)
 
             # List all tasks
-            list_tasks(logger, user_input, command)
+            list_tasks(user_input, command, logger)
 
             # save and exit app
-            save_task(logger, user_input, command)
+            save_task(user_input, command, logger)
 
         except InvalidOption as e:
             display.prompt()

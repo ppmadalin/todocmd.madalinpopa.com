@@ -48,10 +48,22 @@ def test_get_all_tasks_command(resource):
 def test_get_task_command(resource):
     """ returns a task from list """
     # create a task
-    task = resource.get(1)
+    task1 = resource.get(1)
+    task2 = resource.get(0)
 
     # get the task
-    assert isinstance(task, Task)
+    assert isinstance(task1, Task)
+    assert isinstance(task2, Task)
+
+
+def test_get_invalid_task_number_command(resource):
+    """ tests if a invalid task number is provided """
+    # get the number of tasks
+    lenght = len(resource.tasks)
+
+    # catch exception
+    with pytest.raises(IndexError):
+        resource.get(lenght + 1)
 
 
 def test_update_task_command(resource):

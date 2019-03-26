@@ -1,5 +1,5 @@
 # command.py
-from task import Task
+from .task import Task
 
 
 class Command:
