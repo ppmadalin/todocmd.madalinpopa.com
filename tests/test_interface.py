@@ -6,10 +6,10 @@ from datetime import date
 import pytest
 
 # local import
-from src.task import Task
 from src.command import Command
-from src.todocmd import load_tasks
-# from src.todocmd import add_task
+from src.task import Task
+from src.todocmd import add_task, load_tasks
+
 # from src.todocmd import update_task
 # from src.todocmd import delete_tasks
 
@@ -43,3 +43,23 @@ def test_load_tasks(command):
 
     # test task object
     assert isinstance(task_list[0], Task)
+
+
+def test_add_task(command):
+    """ Tests if a task id added correctly """
+    # define a user input
+    user_input = 1
+
+    # create a task
+    task = Task('Task name')
+
+    # add the task
+    add_task(user_input, command)
+
+    # get the task index
+    index = 0
+    for tk in command.tasks:
+        if tk.id == task.id:
+            index = command.tasks.index(task)
+
+    assert command.taks[index].id == task.id
