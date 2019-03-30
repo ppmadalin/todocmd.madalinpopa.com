@@ -4,7 +4,7 @@ todocmd - INFO - user command is 4
 todocmd - INFO - user command is 4
 todocmd - INFO - user command is 4
 todocmd - INFO - user command is 1
-todocmd - INFO - the following task was added task 1
+todocmd - INFO - the following task was added test
 todocmd - INFO - user command is 1
 todocmd - INFO - user command is 1
 todocmd - INFO - user command is 1
@@ -14,10 +14,6 @@ todocmd - INFO - user command is 4
 todocmd - INFO - user command is 4
 todocmd - INFO - user command is 4
 todocmd - INFO - user command is 4
-todocmd - INFO - user command is 2
-todocmd - INFO - user command is 2
-todocmd - INFO - user command is 2
-todocmd - INFO - user command is 2
-todocmd - INFO - user command is 2
-todocmd - INFO - user command is 2
-todocmd - INFO - user command is 2
+todocmd - INFO - user command is 3
+todocmd - INFO - user command is 3
+todocmd - INFO - user command is 3
