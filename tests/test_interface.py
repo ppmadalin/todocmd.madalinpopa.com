@@ -45,6 +45,7 @@ def test_load_tasks(command):
     assert isinstance(task_list[0], Task)
 
 
+@pytest.mark.skip
 def test_add_task(command):
     """ Tests if a task id added correctly """
     # define a user input

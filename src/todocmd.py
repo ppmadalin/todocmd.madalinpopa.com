@@ -62,7 +62,7 @@ def add_task(user_input, command, logger=None):
         task_note = input('Notes: ')
         start_date = input('Start date (year-month-day): ')
         due_date = input('Due date (year-month-day): ')
-       ltask = Task(task_name, task_note, start_date, due_date)
+        ltask = Task(task_name, task_note, start_date, due_date)
         command.add(task)
         print(f'you have added task: {task}')
         if logger:
@@ -105,7 +105,7 @@ def update_task(user_input, command, logger=None):
 
 def delete_task(user_input, command, logger=None):
     """ Delete a task """
-     if logger:
+    if logger:
         logger.info(f'user command is {user_input}')
     if user_input == 3:
         display.prompt()
