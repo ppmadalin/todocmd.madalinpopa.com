@@ -56,13 +56,13 @@ def load_tasks(logger=None):
 def add_task(user_input, command, logger=None):
     """ Adds a new task in list """
     if logger:
-        logger.info(f'user command is {user_input}')
-    if user_input == 1:
-        task_name = input('Task: ')
-        task_note = input('Notes: ')
-        start_date = input('Start date (year-month-day): ')
-        due_date = input('Due date (year-month-day): ')
-        ltask = Task(task_name, task_note, start_date, due_date)
+        logger.info(f'user command is {user_input["option"]}')
+    if user_input['option'] == 1:
+        task_name = user_input['task_name']
+        task_note = user_input['task_note']
+        start_date = user_input['task_start']
+        due_date = user_input['task_end']
+        task = Task(task_name, task_note, start_date, due_date)
         command.add(task)
         print(f'you have added task: {task}')
         if logger:
@@ -72,23 +72,23 @@ def add_task(user_input, command, logger=None):
 def update_task(user_input, command, logger=None):
     """ Updates an existing task """
     if logger:
-        logger.info(f'user command is {user_input}')
-    if user_input == 2:
+        logger.info(f'user command is {user_input["option"]}')
+    if user_input['option'] == 2:
         display.prompt()
         display.task_header()
         display.display_tasks(command.tasks)
         try:
-            task_number = input('Chose a task >>> ')
+            task_number = user_input['task_number']
             if not task_number.isdigit():
                 raise(InvalidTaskNumber('Please pick a number..'))
             if int(task_number) >= len(command.tasks):
                 message = f'Pick a task between 0 and {len(command.tasks)}'
                 raise(InvalidTaskNumber(message))
-            task_name = input('Task name: ')
-            task_note = input('Task note: ')
-            task_start = input('Start date: ')
-            task_due = input('Due date: ')
-            task = command.get(len(task_number))
+            task_name = user_input['task_name']
+            task_note = user_input['task_note']
+            task_start = user_input['task_start']
+            task_due = user_input['task_end']
+            task = command.get(task_number)
             task.name = task_name
             task.note = task_note
             task.start_date = task_start
