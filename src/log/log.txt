@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 todocmd - INFO - user command is 4
 todocmd - INFO - user command is 4
 todocmd - INFO - user command is 4
@@ -17,3 +18,5 @@ todocmd - INFO - user command is 4
 todocmd - INFO - user command is 3
 todocmd - INFO - user command is 3
 todocmd - INFO - user command is 3
+=======
+>>>>>>> 6951e681a37e534647788f7ab0f73da2975d2535
