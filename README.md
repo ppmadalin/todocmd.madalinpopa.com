@@ -7,6 +7,8 @@ A to-do command line application which adds tasks within a csv file.
 All the tasks are saved into the tasks.csv file. If this file doesn't exist, 
 it will be created automatically at first run.
 
+[Imgur](https://i.imgur.com/OVdgKJ8.png)
+
 ## Functions
 
 A user can perform the following actions:
