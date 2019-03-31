@@ -51,3 +51,16 @@ A user can perform the following actions:
 ├── app.log                 # log file for debugging
 └── setup.py                # for packing and distributing
 ```
+
+## Comand line usage
+
+If not option is used the main will start. 
+
+*Positional arguments*
+
+-add    # add a new task
+
+*Optional arguments*
+
+-l --list       # list all tasks
+-v --verbose    # enable verbosity
