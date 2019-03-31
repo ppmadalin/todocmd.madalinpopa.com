@@ -1,8 +1,6 @@
 # test_interface.py
 # standard library
 from datetime import date
-
-# third party library
 import unittest
 
 # local import
@@ -15,6 +13,7 @@ from src.todocmd import update_task
 from src.todocmd import delete_task
 from src.todocmd import list_tasks
 from src.todocmd import save_task
+from main import DATA_FILE
 
 
 class TestCommand(unittest.TestCase):
@@ -40,7 +39,7 @@ class TestCommand(unittest.TestCase):
     def test_load_tasks(self):
         """ Tests if a list of tasks is returned """
         # load tasks
-        task_list = load_tasks()
+        task_list = load_tasks(DATA_FILE)
 
         # test that returns a list
         self.assertIsInstance(task_list, list)
@@ -133,5 +132,5 @@ class TestCommand(unittest.TestCase):
     def test_save_tasks(self):
         """ Test if the tasks are saved """
         with self.assertRaises(SystemExit) as e:
-            save_task(self.inputs, self.com)
+            save_task(self.inputs, self.com, DATA_FILE)
             self.assertEqual(e.exception, 0)

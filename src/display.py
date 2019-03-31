@@ -1,8 +1,8 @@
 # display.py
 """ Module which hold the display functions """
 import os
-from command import Command
-from exception import InvalidOption
+from src.command import Command
+from src.exception import InvalidOption
 
 
 def header():
