@@ -1,31 +1,16 @@
-<<<<<<< HEAD
 todocmd - DEBUG - tasks were loaded
 todocmd - DEBUG - tasks were loaded
 todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded
+todocmd - INFO - user command is 4
+todocmd - INFO - user command is 2
+todocmd - INFO - the following task was updated edited
+todocmd - INFO - user command is 4
+todocmd - INFO - user command is 3
+todocmd - INFO - the following task was deleted: test
+todocmd - INFO - user command is 4
+todocmd - INFO - user command is 3
+todocmd - INFO - the following task was deleted: edited
 todocmd - INFO - user command is 4
 todocmd - INFO - user command is 5
 todocmd - DEBUG - taks were written
-=======
-<<<<<<< HEAD
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 1
-todocmd - INFO - the following task was added test
-todocmd - INFO - user command is 1
-todocmd - INFO - user command is 1
-todocmd - INFO - user command is 1
-todocmd - INFO - user command is 1
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 4
-todocmd - INFO - user command is 3
-todocmd - INFO - user command is 3
-todocmd - INFO - user command is 3
-=======
->>>>>>> 6951e681a37e534647788f7ab0f73da2975d2535
->>>>>>> 4367dbbc1f0bbe503a691ed67a8b752302bc6609

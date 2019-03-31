@@ -165,6 +165,8 @@ def main():
                 options['task_note'] = input('Note: ')
                 options['task_start'] = input('Start date: ')
                 options['task_end'] = input('Due date: ')
+                display.prompt()
+                print()  # add a space
                 add_task(options, command, logger)
 
             # Update task
@@ -175,6 +177,8 @@ def main():
                 options['task_note'] = input('Note: ')
                 options['task_start'] = input('Start date: ')
                 options['task_end'] = input('Due date: ')
+                display.prompt()
+                print()  # add a space
                 update_task(options, command, logger)
 
             # Delete task
@@ -186,6 +190,8 @@ def main():
             # List all tasks
             if user_input == 4:
                 options['option'] = user_input
+                display.prompt()
+                print()  # add a space
                 list_tasks(options, command, logger)
 
             # save and exit app
@@ -195,6 +201,11 @@ def main():
 
         except InvalidOption as e:
             display.prompt()
+            print()  # add a space
+            print(e)
+        except InvalidTaskNumber as e:
+            display.prompt()
+            print()  # add a space
             print(e)
 
 
