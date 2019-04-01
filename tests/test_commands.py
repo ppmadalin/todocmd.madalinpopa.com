@@ -4,13 +4,16 @@
 # standard lib imports
 import unittest
 import argparse
-
+from datetime import date
 # local imports
 from main import DATA_FILE
 from src.task import Task
+from src.command import CommandLine
 from src.command import Command
 from src.todocmd import load_tasks
 from src.todocmd import add_task
+from src.todocmd import delete_task
+from src.todocmd import update_task
 
 
 class TestCommandArgs(unittest.TestCase):
@@ -20,26 +23,24 @@ class TestCommandArgs(unittest.TestCase):
         # options
         self.options = dict()
 
+        # tasks
+        task1 = Task('task1', 'task1 note', date.today(), date.today())
+        task2 = Task('Task2', 'task2 note', date.today(), date.today())
+        task3 = Task('Task3', 'task3 note', date.today(), date.today())
+
         # command
-        self.com = Command(load_tasks(DATA_FILE))
+        self.com = Command([task1, task2, task3])
 
         # initiate the argparse
-        self.parse = argparse.ArgumentParser(prog='TO-DO',
-                                             description='Simple todo app')
+        self.parse = CommandLine()
 
-        # add optional arguments
-        self.parse.add_argument('-l', '--list',
-                                dest='tasks',
-                                help='List all the tasks',
-                                action='store_true',
-                                required=False)
+    def test_cmd_start(self):
+        """ Test if the command line start is passed """
+        # passed args
+        args = self.parse.parse_args(['start', 1])
 
-        self.parse.add_argument('-a', '--add',
-                                dest='add',
-                                help='Add a new task',
-                                action='store',
-                                nargs=4,
-                                required=False)
+        # test given args
+        self.assertTrue(args.start)
 
     def test_cmd_list_tasks(self):
         """ Test display all the tasks """
@@ -81,6 +82,47 @@ class TestCommandArgs(unittest.TestCase):
         self.options['task_start'] = args.add[2]
         self.options['task_end'] = args.add[3]
         add_task(self.options, self.com)
+
+    def test_cmd_delete_task(self):
+        """ Test delete task from command """
+        # passed args
+        args = self.parse.parse_args(['-d', 0, ])
+
+        # test given command
+        self.assertTrue(args.delete[0] == 0)
+
+        # test deleting a task
+        self.options['option'] = '--delete'
+        self.options['task_number'] = args.delete[0]
+
+        # get the first task
+        task = self.com.tasks[0]
+        delete_task(self.options, self.com)
+        self.assertFalse(task.name == self.com.tasks[0].name)
+
+    def test_cmd_update_task(self):
+        """ Test if a task is updated """
+        # passed args
+        args = self.parse.parse_args(['-t', 0,
+                                      '-u', 'name',
+                                      'note', 'start_date',
+                                      'end_date'])
+
+        # test given arguments
+        task_args_len = len(args.task)
+        update_args_len = len(args.update)
+        self.assertTrue(task_args_len == 1)
+        self.assertTrue(update_args_len == 4)
+
+        # test delete a task
+        self.options['option'] = '-u'
+        self.options['task_number'] = args.task[0]
+        self.options['task_name'] = args.update[0]
+        self.options['task_note'] = args.update[1]
+        self.options['task_start'] = args.update[2]
+        self.options['task_end'] = args.update[3]
+        update_task(self.options, self.com)
+        self.assertTrue(self.com.tasks[0].name == 'name')
 
 
 if __name__ == '__main__':

@@ -55,7 +55,7 @@ def update_task(options, command, logger=None):
     """ Updates an existing task """
     if logger:
         logger.info(f'user command is {options["option"]}')
-    task_number = options['task_number']
+    task_number = str(options['task_number'])
     if not task_number.isdigit():
         raise(InvalidTaskNumber('Please pick a number..'))
     if int(task_number) >= len(command.tasks):
@@ -80,7 +80,7 @@ def delete_task(options, command, logger=None):
     """ Delete a task """
     if logger:
         logger.info(f'user command is {options["option"]}')
-    task_number = options['task_number']
+    task_number = str(options['task_number'])
     if not task_number.isdigit():
         raise(InvalidTaskNumber('Please pick a number..'))
     if int(task_number) >= len(command.tasks):

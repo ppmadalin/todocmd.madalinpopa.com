@@ -2,12 +2,14 @@
 # main entry point
 
 # standard lib imports
+import sys
 import logging
 from pathlib import Path
 
 # local lib imports
 from src import display
 from src.command import Command
+from src.command import CommandLine
 from src.exception import InvalidOption, InvalidTaskNumber
 from src.todocmd import (add_task, delete_task, list_tasks,
                          load_tasks, save_task, update_task)
@@ -20,14 +22,39 @@ DATA_DIR = BASEDIR.joinpath('data')
 LOG_FILE = BASEDIR.joinpath(LOG_DIR, 'log.txt')
 DATA_FILE = BASEDIR.joinpath(DATA_DIR, 'tasks.csv')
 
-# configure the lo?!?jedi=0, gging module?!? (*_***kwargs*_*) ?!?jedi?!?
+# configure the logging module
 logging.basicConfig(level=logging.DEBUG,
                     filename=LOG_FILE,
                     filemode='w',
                     format='%(name)s - %(levelname)s - %(message)s')
 
 
+def cmd_args():
+    """ Command Line args """
+
+    # STEP 1: define my logger.
+    logger = logging.getLogger('todocmd')
+
+    # STEP 2: initiate which will hold the tasks
+    command = Command(load_tasks(DATA_FILE, logger))
+
+    # STEP 3: initiate command line args
+    cmd = CommandLine()
+
+    # STEP 4: parse args
+    args = cmd.parse_args()
+
+    # options
+    options = {}
+
+    # listen for commands
+    if args.tasks:
+        options['option'] = '-l --list'
+        list_tasks(options, command, logger)
+
+
 def main():
+    """ Main entry point """
 
     # STEP 1: define my logger.
     logger = logging.getLogger('todocmd')
@@ -98,4 +125,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 0:
+        main()
+    else:
+        cmd_args()

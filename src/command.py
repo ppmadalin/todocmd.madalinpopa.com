@@ -1,5 +1,68 @@
 # command.py
+""" This module holds all the supported commands over a task """
+
+from argparse import ArgumentParser
 from src.task import Task
+
+
+class CommandLine(ArgumentParser):
+
+    def __init__(self):
+        super().__init__()
+        self.prog = 'TO-DO'
+        self.description = 'Simple TO-DO app'
+
+        # add positional arguments
+        self.add_argument('start',
+                          help='Start command line interface',
+                          action='store',
+                          type=int,
+                          default=1, )
+
+        # add optional arguments
+        self.add_argument('-l', '--list',
+                                dest='tasks',
+                                help='List all the tasks',
+                                action='store_true',
+                                required=False)
+
+        self.add_argument('-a', '--add',
+                                dest='add',
+                                help='Add a new task',
+                                action='store',
+                                nargs=4,
+                                required=False)
+
+        self.add_argument('-d', '--delete',
+                                dest='delete',
+                                help='Delete task',
+                                action='store',
+                                nargs=1,
+                                type=int,
+                                required=False)
+
+        self.add_argument('-u', '--update',
+                                dest='update',
+                                help='Update task',
+                                action='store',
+                                nargs=4,
+                                required=False)
+
+        self.add_argument('-t', '--task',
+                                dest='task',
+                                help='Pick a task number',
+                                action='store',
+                                nargs=1,
+                                type=int,
+                                required=False)
+
+        self.add_argument('-n', '--name',
+                                dest='task_name',
+                                help='Task name',
+                                action='store',
+                                nargs=1,
+                                type=str,
+                                required=False)
 
 
 class Command:
