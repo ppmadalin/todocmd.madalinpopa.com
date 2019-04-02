@@ -3,7 +3,6 @@
 
 # standard lib imports
 import unittest
-import argparse
 from datetime import date
 # local imports
 from main import DATA_FILE
@@ -37,10 +36,10 @@ class TestCommandArgs(unittest.TestCase):
     def test_cmd_start(self):
         """ Test if the command line start is passed """
         # passed args
-        args = self.parse.parse_args(['start', 1])
+        args = self.parse.parse_args(['-i'])
 
         # test given args
-        self.assertTrue(args.start)
+        self.assertTrue(args.interactive)
 
     def test_cmd_list_tasks(self):
         """ Test display all the tasks """
