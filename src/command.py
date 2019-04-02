@@ -13,11 +13,11 @@ class CommandLine(ArgumentParser):
         self.description = 'Simple TO-DO app'
 
         # add positional arguments
-        self.add_argument('start',
+        self.add_argument('-i', '--interactive',
+                          dest='interactive',
+                          action='store_true',
                           help='Start command line interface',
-                          action='store',
-                          type=int,
-                          default=1, )
+                          required=False, )
 
         # add optional arguments
         self.add_argument('-l', '--list',

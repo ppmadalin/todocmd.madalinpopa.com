@@ -2,7 +2,6 @@
 # main entry point
 
 # standard lib imports
-import sys
 import logging
 from pathlib import Path
 
@@ -29,31 +28,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(name)s - %(levelname)s - %(message)s')
 
 
-def cmd_args():
-    """ Command Line args """
-
-    # STEP 1: define my logger.
-    logger = logging.getLogger('todocmd')
-
-    # STEP 2: initiate which will hold the tasks
-    command = Command(load_tasks(DATA_FILE, logger))
-
-    # STEP 3: initiate command line args
-    cmd = CommandLine()
-
-    # STEP 4: parse args
-    args = cmd.parse_args()
-
-    # options
-    options = {}
-
-    # listen for commands
-    if args.tasks:
-        options['option'] = '-l --list'
-        list_tasks(options, command, logger)
-
-
-def main():
+def interface():
     """ Main entry point """
 
     # STEP 1: define my logger.
@@ -124,8 +99,33 @@ def main():
             print(e)
 
 
+def main():
+    """ Command Line args """
+
+    # STEP 1: define my logger.
+    logger = logging.getLogger('todocmd')
+
+    # STEP 2: initiate which will hold the tasks
+    command = Command(load_tasks(DATA_FILE, logger))
+
+    # STEP 3: initiate command line args
+    cmd = CommandLine()
+
+    # STEP 4: parse args
+    args = cmd.parse_args()
+
+    # options
+    options = {}
+
+    # START INTERFACE
+    if args.interactive:
+        interface()
+
+    # LIST TASKS
+    if args.tasks:
+        options['option'] = '-l --list'
+        list_tasks(options, command, logger)
+
+
 if __name__ == '__main__':
-    if len(sys.argv) == 0:
-        main()
-    else:
-        cmd_args()
+    main()
