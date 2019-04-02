@@ -5,7 +5,7 @@
 import unittest
 from datetime import date
 # local imports
-from main import DATA_FILE
+from todo import DATA_FILE
 from src.task import Task
 from src.command import CommandLine
 from src.command import Command
@@ -122,6 +122,30 @@ class TestCommandArgs(unittest.TestCase):
         self.options['task_end'] = args.update[3]
         update_task(self.options, self.com)
         self.assertTrue(self.com.tasks[0].name == 'name')
+
+    def test_cmd_select_task(self):
+        """ Test if a task is selectd """
+        # passed args
+        args = self.parse.parse_args(['-t', 0, ])
+
+        # test given arguments
+        self.assertTrue(args.task[0] == 0)
+
+    def test_cmd_name_task(self):
+        """ Test if task name is updated"""
+        # passed args
+        args = self.parse.parse_args(['-t', 0, '-n', 'name'])
+
+        # test given arguments
+        self.assertTrue(args.task[0] == 0)
+        self.assertTrue(args.task_name[0] == 'name')
+
+        # get task 0
+        task0 = self.com.tasks[0]
+
+        # update task
+        self.options['option'] = 'update'
+        self.options['task_number'] = args.task[0]
 
 
 if __name__ == '__main__':

@@ -13,7 +13,7 @@ from src.todocmd import update_task
 from src.todocmd import delete_task
 from src.todocmd import list_tasks
 from src.todocmd import save_task
-from main import DATA_FILE
+from todo import DATA_FILE
 
 
 class TestCommand(unittest.TestCase):

@@ -3,7 +3,6 @@
 
 # standard lib imports
 import csv
-import os
 import sys
 
 # local lib imports
@@ -117,5 +116,4 @@ def save_task(options, command, DATA_FILE, logger=None):
             write.writerow(row)
     if logger:
         logger.debug("taks were written")
-    os.system('cls' if os.name == 'nt' else 'clear')
     sys.exit(0)

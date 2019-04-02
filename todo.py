@@ -126,6 +126,46 @@ def main():
         options['option'] = '-l --list'
         list_tasks(options, command, logger)
 
+    # ADD NEW TASK
+    if args.add:
+        options['option'] = '--add'
+        options['task_name'] = args.add[0]
+        options['task_note'] = args.add[1]
+        options['task_start'] = args.add[2]
+        options['task_end'] = args.add[3]
+
+        # add task
+        add_task(options, command, logger)
+
+        # save changes
+        save_task(options, command, DATA_FILE, logger)
+
+    # DELETE TASK
+    if args.delete:
+        options['option'] = '--delete'
+        options['task_number'] = args.delete[0]
+
+        # delete task
+        delete_task(options, command, logger)
+
+        # save change
+        save_task(options, command, DATA_FILE, logger)
+
+    # UPDATE TASK
+    if args.task and args.update:
+        options['option'] = '-u'
+        options['task_number'] = args.task[0]
+        options['task_name'] = args.update[0]
+        options['task_note'] = args.update[1]
+        options['task_start'] = args.update[2]
+        options['task_end'] = args.update[3]
+
+        # update task
+        update_task(options, command, logger)
+
+        # save change
+        save_task(options, command, DATA_FILE, logger)
+
 
 if __name__ == '__main__':
     main()
