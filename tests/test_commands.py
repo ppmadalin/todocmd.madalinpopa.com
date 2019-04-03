@@ -7,6 +7,7 @@ from datetime import date
 # local imports
 from todo import DATA_FILE
 from src.task import Task
+from src.display import display_tasks
 from src.command import CommandLine
 from src.command import Command
 from src.todocmd import load_tasks
@@ -59,6 +60,18 @@ class TestCommandArgs(unittest.TestCase):
         tasks = load_tasks(DATA_FILE)
         self.assertIsInstance(tasks[0], Task)
 
+    def test_cmd_list_one_task(self):
+        """ Test if only one task is listed """
+        # pass args
+        args = self.parse.parse_args(['-l', '-t', 0])
+
+        # test given args
+        self.assertTrue(args.tasks and args.task[0] == 0)
+
+        # list task
+        task = self.com.tasks[args.task[0]]
+        self.assertTrue(display_tasks([task]))
+
     def test_cmd_add_new_task(self):
         """ Test add new task using comand args """
         # passed args
@@ -85,14 +98,15 @@ class TestCommandArgs(unittest.TestCase):
     def test_cmd_delete_task(self):
         """ Test delete task from command """
         # passed args
-        args = self.parse.parse_args(['-d', 0, ])
+        args = self.parse.parse_args(['-d', '-t', 0])
 
         # test given command
-        self.assertTrue(args.delete[0] == 0)
+        self.assertTrue(args.delete)
+        self.assertTrue(args.delete and args.task[0] == 0)
 
         # test deleting a task
         self.options['option'] = '--delete'
-        self.options['task_number'] = args.delete[0]
+        self.options['task_number'] = args.task[0]
 
         # get the first task
         task = self.com.tasks[0]
@@ -134,7 +148,7 @@ class TestCommandArgs(unittest.TestCase):
     def test_cmd_name_task(self):
         """ Test if task name is updated"""
         # passed args
-        args = self.parse.parse_args(['-t', 0, '-n', 'name'])
+        args = self.parse.parse_args(['-t', 0, '--name', 'name'])
 
         # test given arguments
         self.assertTrue(args.task[0] == 0)
@@ -142,10 +156,19 @@ class TestCommandArgs(unittest.TestCase):
 
         # get task 0
         task0 = self.com.tasks[0]
+        previous_name = task0.name
 
         # update task
         self.options['option'] = 'update'
         self.options['task_number'] = args.task[0]
+        self.options['task_name'] = args.task_name[0]
+        self.options['task_note'] = task0.note
+        self.options['task_start'] = task0.start_date
+        self.options['task_end'] = task0.end_date
+        update_task(self.options, self.com)
+
+        # test if the name has changed
+        self.assertNotEqual(previous_name, self.com.tasks[0].name)
 
 
 if __name__ == '__main__':

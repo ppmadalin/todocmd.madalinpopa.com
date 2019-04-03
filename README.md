@@ -12,6 +12,8 @@ it will be created automatically at first run.
 ## Functions
 
 A user can perform the following actions:
+test j
+test
 
 1. Add a new task
 2. Update a task
@@ -54,13 +56,19 @@ A user can perform the following actions:
 
 ## Comand line usage
 
-If not option is used the main will start. 
+*Arguments that can be passed*
 
-*Positional arguments*
+-i --interactive 
+-t --task <task_number>                                               
+-l --list        
+-l -t <task_number>          
+-u --update <task_name> <task_note> <task_start> <task_due>  -t <task_number>
+-d --delete -t <task_number>        
+-a --add <task_name> <task_note> <task_start> <task_due> 
+-m --mark <status> -t <task_number>
+--name <task_name> -t <task_number>
+--note <task_note> -t <task_number>
+--start <task_start> -t <task_number>
+--due <task_due> -t <task_number>
 
--add    # add a new task
 
-*Optional arguments*
-
--l --list       # list all tasks
--v --verbose    # enable verbosity
