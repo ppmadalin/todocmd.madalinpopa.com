@@ -66,6 +66,7 @@ def display_tasks(task_list):
         due = task.end_date
         status = task.status
         print(f'{nr:<3}{name:<30}{start:<30}{due:<30}{status:<30}')
+    return True
 
 
 if __name__ == '__main__':
