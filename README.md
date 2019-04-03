@@ -58,6 +58,7 @@ test
 
 *Arguments that can be passed*
 
+```markdown
 -i --interactive 
 -t --task <task_number>                                               
 -l --list        
@@ -70,5 +71,6 @@ test
 --note <task_note> -t <task_number>
 --start <task_start> -t <task_number>
 --due <task_due> -t <task_number>
+```
 
 
