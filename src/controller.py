@@ -2,7 +2,7 @@
 """ This module holds all the supported commands over a task """
 
 from argparse import ArgumentParser
-from src.task import Task
+from src.models import Task
 
 
 class CommandLine(ArgumentParser):
@@ -89,7 +89,6 @@ class Command:
         3: 'Delete task',
         4: 'List all tasks',
         5: 'Save/Exit',
-
     }
 
     def __init__(self, task_list):

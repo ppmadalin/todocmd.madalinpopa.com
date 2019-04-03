@@ -1,5 +1,5 @@
 # test_task.py
-from src.task import Task
+from src.models import Task
 import unittest
 
 

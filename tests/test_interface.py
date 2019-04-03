@@ -5,8 +5,8 @@ import unittest
 
 # local import
 from src.exception import InvalidTaskNumber
-from src.command import Command
-from src.task import Task
+from src.controller import Command
+from src.models import Task
 from src.todocmd import load_tasks
 from src.todocmd import add_task
 from src.todocmd import update_task

@@ -1,4 +1,4 @@
-# test_commands.py
+# test_controller.py
 """ This modules is used to test all the supported commands """
 
 # standard lib imports
@@ -6,17 +6,17 @@ import unittest
 from datetime import date
 # local imports
 from todo import DATA_FILE
-from src.task import Task
-from src.display import display_tasks
-from src.command import CommandLine
-from src.command import Command
+from src.models import Task
+from src.views import display_tasks
+from src.controller import CommandLine
+from src.controller import Command
 from src.todocmd import load_tasks
 from src.todocmd import add_task
 from src.todocmd import delete_task
 from src.todocmd import update_task
 
 
-class TestCommandArgs(unittest.TestCase):
+class TestController(unittest.TestCase):
 
     def setUp(self):
         """ Tests setup """

@@ -1,8 +1,8 @@
 # test_todocmd.py
 import unittest
 from datetime import date
-from src.command import Command
-from src.task import Task
+from src.controller import Command
+from src.models import Task
 
 
 class TestTodocmd(unittest.TestCase):

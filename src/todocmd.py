@@ -7,9 +7,9 @@ import sys
 
 # local lib imports
 from pathlib import Path
-from src import display
+from src import views
 from src.exception import InvalidTaskNumber
-from src.task import Task
+from src.models import Task
 
 
 def load_tasks(DATA_FILE, logger=None):
@@ -96,8 +96,8 @@ def list_tasks(options, command, logger=None):
     """ Lists all tasks """
     if logger:
         logger.info(f'user command is {options["option"]}')
-    display.task_header()
-    display.display_tasks(command.tasks)
+    views.task_header()
+    views.views_tasks(command.tasks)
     return True
 
 

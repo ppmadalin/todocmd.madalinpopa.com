@@ -1,7 +1,7 @@
 # display.py
 """ Module which hold the display functions """
 import os
-from src.command import Command
+from src.controller import Command
 from src.exception import InvalidOption
 
 

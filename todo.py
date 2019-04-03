@@ -6,9 +6,9 @@ import logging
 from pathlib import Path
 
 # local lib imports
-from src import display
-from src.command import Command
-from src.command import CommandLine
+from src import views
+from src.controller import Command
+from src.controller import CommandLine
 from src.exception import InvalidOption, InvalidTaskNumber
 from src.todocmd import (add_task, delete_task, list_tasks,
                          load_tasks, save_task, update_task)
@@ -37,13 +37,13 @@ def interface():
     # STEP 2: initiate which will hold the tasks
     command = Command(load_tasks(DATA_FILE, logger))
 
-    # STEP 4: display the promopt and listen for user input
-    display.prompt()
+    # STEP 4: views the promopt and listen for user input
+    views.prompt()
 
     while True:
         try:
             # input
-            user_input = display.get_input()
+            user_input = views.get_input()
 
             # options
             options = {}
@@ -55,7 +55,7 @@ def interface():
                 options['task_note'] = input('Note: ')
                 options['task_start'] = input('Start date: ')
                 options['task_end'] = input('Due date: ')
-                display.prompt()
+                views.prompt()
                 print()  # add a space
                 add_task(options, command, logger)
 
@@ -67,7 +67,7 @@ def interface():
                 options['task_note'] = input('Note: ')
                 options['task_start'] = input('Start date: ')
                 options['task_end'] = input('Due date: ')
-                display.prompt()
+                views.prompt()
                 print()  # add a space
                 update_task(options, command, logger)
 
@@ -80,7 +80,7 @@ def interface():
             # List all tasks
             if user_input == 4:
                 options['option'] = user_input
-                display.prompt()
+                views.prompt()
                 print()  # add a space
                 list_tasks(options, command, logger)
 
@@ -90,11 +90,11 @@ def interface():
                 save_task(options, command, DATA_FILE, logger)
 
         except InvalidOption as e:
-            display.prompt()
+            views.prompt()
             print()  # add a space
             print(e)
         except InvalidTaskNumber as e:
-            display.prompt()
+            views.prompt()
             print()  # add a space
             print(e)
 
