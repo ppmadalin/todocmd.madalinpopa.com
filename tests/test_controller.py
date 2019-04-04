@@ -8,7 +8,7 @@ from datetime import date
 from todo import DATA_FILE
 from src.model.task import Task
 from src.view.termview import TerminalView
-from src.controller.command import CommandLine
+from src.controller.cmdargs import CommandArgs
 from src.controller.command import Command
 from src.controller.initdata import Data
 from src.todocmd import add_task
@@ -32,7 +32,7 @@ class TestController(unittest.TestCase):
         self.com = Command([task1, task2, task3])
 
         # initiate the argparse
-        self.parse = CommandLine()
+        self.parse = CommandArgs()
 
     def test_cmd_start(self):
         """ Test if the command line start is passed """

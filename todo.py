@@ -8,11 +8,11 @@ from pathlib import Path
 # local lib imports
 from src.view.termview import TerminalView
 from src.controller.command import Command
-from src.controller.command import CommandLine
+from src.controller.cmdargs import CommandArgs
 from src.controller.initdata import Data
 from src.exception import InvalidOption, InvalidTaskNumber
 from src.todocmd import (add_task, delete_task, list_tasks,
-                         save_task, update_task)
+                         update_task)
 
 
 # set the paths
@@ -88,7 +88,7 @@ def interface():
             # save and exit app
             if user_input == 5:
                 options['option'] = user_input
-                save_task(options, command, DATA_FILE, logger)
+                Data.save_to_csv_file(options, command, DATA_FILE, logger)
 
         except InvalidOption as e:
             TerminalView.prompt()
@@ -110,7 +110,7 @@ def main():
     command = Command(Data.load_from_csv_file(DATA_FILE, logger))
 
     # STEP 3: initiate command line args
-    cmd = CommandLine()
+    cmd = CommandArgs()
 
     # STEP 4: parse args
     args = cmd.parse_args()
@@ -139,7 +139,7 @@ def main():
         add_task(options, command, logger)
 
         # save changes
-        save_task(options, command, DATA_FILE, logger)
+        Data.save_to_csv_file(options, command, DATA_FILE, logger)
 
     # DELETE TASK
     if args.delete:
@@ -150,7 +150,7 @@ def main():
         delete_task(options, command, logger)
 
         # save change
-        save_task(options, command, DATA_FILE, logger)
+        Data.save_to_csv_file(options, command, DATA_FILE, logger)
 
     # UPDATE TASK
     if args.task and args.update:
@@ -165,7 +165,7 @@ def main():
         update_task(options, command, logger)
 
         # save change
-        save_task(options, command, DATA_FILE, logger)
+        Data.save_to_csv_file(options, command, DATA_FILE, logger)
 
 
 if __name__ == '__main__':
