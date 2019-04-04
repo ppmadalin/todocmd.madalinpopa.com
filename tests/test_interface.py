@@ -5,13 +5,13 @@ import unittest
 
 # local import
 from src.exception import InvalidTaskNumber
-from src.controller.command import Command
+from src.controller.basectrl import BaseController
 from src.model.task import Task
 from src.controller.initdata import Data
-from src.todocmd import add_task
-from src.todocmd import update_task
-from src.todocmd import delete_task
-from src.todocmd import list_tasks
+from src.controller.termctrl import add_task
+from src.controller.termctrl import update_task
+from src.controller.termctrl import delete_task
+from src.controller.termctrl import list_tasks
 from todo import DATA_FILE
 
 
@@ -33,7 +33,7 @@ class TestCommand(unittest.TestCase):
                        'task_end': '2019-22-03', }
 
         # create a command
-        self.com = Command([task1, task2, task3])
+        self.com = BaseController([task1, task2, task3])
 
     def test_load_tasks(self):
         """ Tests if a list of tasks is returned """

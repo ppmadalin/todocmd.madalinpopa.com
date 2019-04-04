@@ -7,12 +7,12 @@ from pathlib import Path
 
 # local lib imports
 from src.view.termview import TerminalView
-from src.controller.command import Command
-from src.controller.cmdargs import CommandArgs
+from src.controller.basectrl import BaseController
+from src.cmdargs import CommandArgs
 from src.controller.initdata import Data
 from src.exception import InvalidOption, InvalidTaskNumber
-from src.todocmd import (add_task, delete_task, list_tasks,
-                         update_task)
+from src.controller.termctrl import (add_task, delete_task, list_tasks,
+                                     update_task)
 
 
 # set the paths
@@ -36,7 +36,7 @@ def interface():
     logger = logging.getLogger('todocmd')
 
     # STEP 2: initiate which will hold the tasks
-    command = Command(Data.load_from_csv_file(DATA_FILE, logger))
+    command = BaseController(Data.load_from_csv_file(DATA_FILE, logger))
 
     # STEP 4: views the promopt and listen for user input
     TerminalView.prompt()
@@ -107,7 +107,7 @@ def main():
     logger = logging.getLogger('todocmd')
 
     # STEP 2: initiate which will hold the tasks
-    command = Command(Data.load_from_csv_file(DATA_FILE, logger))
+    command = BaseController(Data.load_from_csv_file(DATA_FILE, logger))
 
     # STEP 3: initiate command line args
     cmd = CommandArgs()

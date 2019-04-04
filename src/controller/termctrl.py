@@ -1,4 +1,4 @@
-# todocmd.py
+# termctrl.py
 # the main file with the entry point
 
 # standard lib imports

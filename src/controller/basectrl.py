@@ -4,7 +4,7 @@
 from src.model.task import Task
 
 
-class Command:
+class BaseController:
 
     supported_commands = {
         1: 'Add task',

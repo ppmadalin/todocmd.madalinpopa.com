@@ -1,7 +1,7 @@
 # display.py
 """ Module which hold the display functions """
 import os
-from src.controller.command import Command
+from src.controller.basectrl import BaseController
 from src.exception import InvalidOption
 
 
@@ -42,17 +42,17 @@ class TerminalView:
         user_input = input("Chose an action >>> ")
         if not user_input.isdigit():
             raise InvalidOption('Please select a valid menu option')
-        if int(user_input) > len(Command.supported_commands):
-            message = f'Available only {len(Command.supported_commands)}'
+        if int(user_input) > len(BaseController.supported_commands):
+            message = f'Available only {len(BaseController.supported_commands)}'
             raise InvalidOption(message)
-        prompt()
+        TerminalView.prompt()
         return int(user_input)
 
     @staticmethod
     def prompt():
         os.system('cls' if os.name == 'nt' else 'clear')
-        header()
-        generate_menu(Command.supported_commands)
+        TerminalView.header()
+        TerminalView.generate_menu(BaseController.supported_commands)
 
     @staticmethod
     def task_header():

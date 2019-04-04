@@ -1,7 +1,7 @@
 # test_todocmd.py
 import unittest
 from datetime import date
-from src.controller.command import Command
+from src.controller.basectrl import BaseController
 from src.model.task import Task
 
 
@@ -11,11 +11,11 @@ class TestTodocmd(unittest.TestCase):
         task1 = Task('task1', 'task1 note', date.today(), date.today())
         task2 = Task('Task2', 'task2 note', date.today(), date.today())
 
-        self.com = Command([task1, task2])
+        self.com = BaseController([task1, task2])
 
     def test_init_command(self):
-        """ test if the resource is instance of Command """
-        self.assertIsInstance(self.com, Command)
+        """ test if the resource is instance of BaseController """
+        self.assertIsInstance(self.com, BaseController)
 
     def test_add_task_command(self):
         """ returns Task if the task is added """
