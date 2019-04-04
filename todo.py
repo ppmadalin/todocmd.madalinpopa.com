@@ -6,12 +6,13 @@ import logging
 from pathlib import Path
 
 # local lib imports
-from src import views
-from src.controller import Command
-from src.controller import CommandLine
+from src.view.termview import TerminalView
+from src.controller.command import Command
+from src.controller.command import CommandLine
+from src.controller.initdata import Data
 from src.exception import InvalidOption, InvalidTaskNumber
 from src.todocmd import (add_task, delete_task, list_tasks,
-                         load_tasks, save_task, update_task)
+                         save_task, update_task)
 
 
 # set the paths
@@ -35,15 +36,15 @@ def interface():
     logger = logging.getLogger('todocmd')
 
     # STEP 2: initiate which will hold the tasks
-    command = Command(load_tasks(DATA_FILE, logger))
+    command = Command(Data.load_from_csv_file(DATA_FILE, logger))
 
     # STEP 4: views the promopt and listen for user input
-    views.prompt()
+    TerminalView.prompt()
 
     while True:
         try:
             # input
-            user_input = views.get_input()
+            user_input = TerminalView.get_input()
 
             # options
             options = {}
@@ -55,7 +56,7 @@ def interface():
                 options['task_note'] = input('Note: ')
                 options['task_start'] = input('Start date: ')
                 options['task_end'] = input('Due date: ')
-                views.prompt()
+                TerminalView.prompt()
                 print()  # add a space
                 add_task(options, command, logger)
 
@@ -67,7 +68,7 @@ def interface():
                 options['task_note'] = input('Note: ')
                 options['task_start'] = input('Start date: ')
                 options['task_end'] = input('Due date: ')
-                views.prompt()
+                TerminalView.prompt()
                 print()  # add a space
                 update_task(options, command, logger)
 
@@ -80,7 +81,7 @@ def interface():
             # List all tasks
             if user_input == 4:
                 options['option'] = user_input
-                views.prompt()
+                TerminalView.prompt()
                 print()  # add a space
                 list_tasks(options, command, logger)
 
@@ -90,11 +91,11 @@ def interface():
                 save_task(options, command, DATA_FILE, logger)
 
         except InvalidOption as e:
-            views.prompt()
+            TerminalView.prompt()
             print()  # add a space
             print(e)
         except InvalidTaskNumber as e:
-            views.prompt()
+            TerminalView.prompt()
             print()  # add a space
             print(e)
 
@@ -106,7 +107,7 @@ def main():
     logger = logging.getLogger('todocmd')
 
     # STEP 2: initiate which will hold the tasks
-    command = Command(load_tasks(DATA_FILE, logger))
+    command = Command(Data.load_from_csv_file(DATA_FILE, logger))
 
     # STEP 3: initiate command line args
     cmd = CommandLine()

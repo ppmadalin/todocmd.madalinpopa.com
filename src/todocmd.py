@@ -2,37 +2,11 @@
 # the main file with the entry point
 
 # standard lib imports
-import csv
-import sys
 
 # local lib imports
-from pathlib import Path
-from src import views
+from src.view.termview import TerminalView
 from src.exception import InvalidTaskNumber
-from src.models import Task
-
-
-def load_tasks(DATA_FILE, logger=None):
-    """ Loads task and create the tasks.csv file if not exists """
-    tasks_list = []
-    if not Path(DATA_FILE).exists():
-        with open(DATA_FILE, mode='w'):
-            logger.debug(f'file: {DATA_FILE} was created')
-            pass
-    else:
-        with open(DATA_FILE, mode='r', newline="") as f:
-            reader = csv.reader(f, delimiter=',')
-            for row in reader:
-                if len(row) > 4:
-                    task = Task(row[0],
-                                row[1],
-                                row[2],
-                                row[3],
-                                row[4],)
-                    if logger:
-                        logger.debug(f'tasks were loaded')
-                    tasks_list.append(task)
-            return tasks_list
+from src.model.task import Task
 
 
 def add_task(options, command, logger=None):
@@ -96,24 +70,6 @@ def list_tasks(options, command, logger=None):
     """ Lists all tasks """
     if logger:
         logger.info(f'user command is {options["option"]}')
-    views.task_header()
-    views.views_tasks(command.tasks)
+    TerminalView.task_header()
+    TerminalView.display_tasks(command.tasks)
     return True
-
-
-def save_task(options, command, DATA_FILE, logger=None):
-    """ Save task and exit """
-    if logger:
-        logger.info(f'user command is {options["option"]}')
-    with open(DATA_FILE, mode='w', newline="") as f:
-        write = csv.writer(f, delimiter=',')
-        for task in command.tasks:
-            row = [task.name,
-                   task.note,
-                   task.start_date,
-                   task.end_date,
-                   task.status, ]
-            write.writerow(row)
-    if logger:
-        logger.debug("taks were written")
-    sys.exit(0)

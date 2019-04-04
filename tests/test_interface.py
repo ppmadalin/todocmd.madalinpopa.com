@@ -5,14 +5,13 @@ import unittest
 
 # local import
 from src.exception import InvalidTaskNumber
-from src.controller import Command
-from src.models import Task
-from src.todocmd import load_tasks
+from src.controller.command import Command
+from src.model.task import Task
+from src.controller.initdata import Data
 from src.todocmd import add_task
 from src.todocmd import update_task
 from src.todocmd import delete_task
 from src.todocmd import list_tasks
-from src.todocmd import save_task
 from todo import DATA_FILE
 
 
@@ -39,7 +38,7 @@ class TestCommand(unittest.TestCase):
     def test_load_tasks(self):
         """ Tests if a list of tasks is returned """
         # load tasks
-        task_list = load_tasks(DATA_FILE)
+        task_list = Data.load_from_csv_file(DATA_FILE)
 
         # test that returns a list
         self.assertIsInstance(task_list, list)
@@ -131,6 +130,5 @@ class TestCommand(unittest.TestCase):
 
     def test_save_tasks(self):
         """ Test if the tasks are saved """
-        with self.assertRaises(SystemExit) as e:
-            save_task(self.inputs, self.com, DATA_FILE)
-            self.assertEqual(e.exception, 0)
+        save = Data.save_to_csv_file(self.inputs, self.com, DATA_FILE)
+        self.assertTrue(save)

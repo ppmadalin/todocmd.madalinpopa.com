@@ -2,7 +2,7 @@
 """ This module holds all the supported commands over a task """
 
 from argparse import ArgumentParser
-from src.models import Task
+from src.model.task import Task
 
 
 class CommandLine(ArgumentParser):

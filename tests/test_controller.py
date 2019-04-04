@@ -6,11 +6,11 @@ import unittest
 from datetime import date
 # local imports
 from todo import DATA_FILE
-from src.models import Task
-from src.views import display_tasks
-from src.controller import CommandLine
-from src.controller import Command
-from src.todocmd import load_tasks
+from src.model.task import Task
+from src.view.termview import TerminalView
+from src.controller.command import CommandLine
+from src.controller.command import Command
+from src.controller.initdata import Data
 from src.todocmd import add_task
 from src.todocmd import delete_task
 from src.todocmd import update_task
@@ -52,12 +52,12 @@ class TestController(unittest.TestCase):
 
         # get a list of tasks and check if is not empty
         if args.tasks:
-            list_of_tasks = load_tasks(DATA_FILE)
+            list_of_tasks = Data.load_from_csv_file(DATA_FILE)
 
         self.assertTrue(len(list_of_tasks) > 0)
 
         # test first task in the list
-        tasks = load_tasks(DATA_FILE)
+        tasks = Data.load_from_csv_file(DATA_FILE)
         self.assertIsInstance(tasks[0], Task)
 
     def test_cmd_list_one_task(self):
@@ -70,7 +70,7 @@ class TestController(unittest.TestCase):
 
         # list task
         task = self.com.tasks[args.task[0]]
-        self.assertTrue(display_tasks([task]))
+        self.assertTrue(TerminalView.display_tasks([task]))
 
     def test_cmd_add_new_task(self):
         """ Test add new task using comand args """
