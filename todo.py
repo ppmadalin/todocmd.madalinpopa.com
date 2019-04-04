@@ -9,7 +9,7 @@ from pathlib import Path
 from src.view.termview import TerminalView
 from src.controller.basectrl import BaseController
 from src.cmdargs import CommandArgs
-from src.controller.initdata import Data
+from src.initdata import Data
 from src.exception import InvalidOption, InvalidTaskNumber
 from src.controller.termctrl import (add_task, delete_task, list_tasks,
                                      update_task)
