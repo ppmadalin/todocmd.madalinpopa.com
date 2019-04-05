@@ -5,7 +5,7 @@ from src.controller.basectrl import BaseController
 from src.model.task import Task
 
 
-class TestTodocmd(unittest.TestCase):
+class TestBaseController(unittest.TestCase):
     def setUp(self):
         """ Initiate two tasks and a command """
         task1 = Task('task1', 'task1 note', date.today(), date.today())

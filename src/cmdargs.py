@@ -50,7 +50,7 @@ class CommandArgs(ArgumentParser):
                           type=int, )
 
         self.add_argument('-m', '--mark',
-                          dest='task',
+                          dest='mark',
                           help='Mark a task done or undone',
                           action='store',
                           nargs=1,

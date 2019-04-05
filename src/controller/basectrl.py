@@ -1,5 +1,14 @@
-# command.py
-""" This module holds all the supported commands over a task """
+# basectrl.py
+"""
+Base Controller is the module where all the basic
+command are defined.
+
+Some examples of these comands are the following:
+
+    - add(task)
+    - delete(task)
+    - update(task)
+"""
 
 from src.model.task import Task
 
