@@ -3,16 +3,16 @@
 
 # standard lib imports
 import logging
+import sys
 from pathlib import Path
 
 # local lib imports
-from src import display
-from src.command import Command
-from src.command import CommandLine
+from src.view.termview import TerminalView
+from src.controller.basectrl import BaseController
+from src.cmdargs import CommandArgs
+from src.initdata import Data
 from src.exception import InvalidOption, InvalidTaskNumber
-from src.todocmd import (add_task, delete_task, list_tasks,
-                         load_tasks, save_task, update_task)
-
+from src.controller.termctrl import TerminalController
 
 # set the paths
 BASEDIR = Path(__file__).parent
@@ -35,15 +35,15 @@ def interface():
     logger = logging.getLogger('todocmd')
 
     # STEP 2: initiate which will hold the tasks
-    command = Command(load_tasks(DATA_FILE, logger))
+    command = BaseController(Data.load_from_csv_file(DATA_FILE, logger))
 
-    # STEP 4: display the promopt and listen for user input
-    display.prompt()
+    # STEP 4: views the promopt and listen for user input
+    TerminalView.prompt()
 
     while True:
         try:
             # input
-            user_input = display.get_input()
+            user_input = TerminalView.get_input()
 
             # options
             options = {}
@@ -55,9 +55,9 @@ def interface():
                 options['task_note'] = input('Note: ')
                 options['task_start'] = input('Start date: ')
                 options['task_end'] = input('Due date: ')
-                display.prompt()
+                TerminalView.prompt()
                 print()  # add a space
-                add_task(options, command, logger)
+                TerminalController.add_task(options, command, logger)
 
             # Update task
             if user_input == 2:
@@ -67,34 +67,35 @@ def interface():
                 options['task_note'] = input('Note: ')
                 options['task_start'] = input('Start date: ')
                 options['task_end'] = input('Due date: ')
-                display.prompt()
+                TerminalView.prompt()
                 print()  # add a space
-                update_task(options, command, logger)
+                TerminalController.update_task(options, command, logger)
 
             # Delete task
             if user_input == 3:
                 options['option'] = user_input
                 options['task_number'] = input('Task number >>> ')
-                delete_task(options, command, logger)
+                TerminalController.delete_task(options, command, logger)
 
             # List all tasks
             if user_input == 4:
                 options['option'] = user_input
-                display.prompt()
+                TerminalView.prompt()
                 print()  # add a space
-                list_tasks(options, command, logger)
+                TerminalController.list_tasks(options, command, logger)
 
             # save and exit app
             if user_input == 5:
                 options['option'] = user_input
-                save_task(options, command, DATA_FILE, logger)
+                Data.save_to_csv_file(options, command, DATA_FILE, logger)
+                sys.exit(0)
 
         except InvalidOption as e:
-            display.prompt()
+            TerminalView.prompt()
             print()  # add a space
             print(e)
         except InvalidTaskNumber as e:
-            display.prompt()
+            TerminalView.prompt()
             print()  # add a space
             print(e)
 
@@ -106,10 +107,10 @@ def main():
     logger = logging.getLogger('todocmd')
 
     # STEP 2: initiate which will hold the tasks
-    command = Command(load_tasks(DATA_FILE, logger))
+    command = BaseController(Data.load_from_csv_file(DATA_FILE, logger))
 
     # STEP 3: initiate command line args
-    cmd = CommandLine()
+    cmd = CommandArgs()
 
     # STEP 4: parse args
     args = cmd.parse_args()
@@ -124,7 +125,7 @@ def main():
     # LIST TASKS
     if args.tasks:
         options['option'] = '-l --list'
-        list_tasks(options, command, logger)
+        TerminalController.list_tasks(options, command, logger)
 
     # ADD NEW TASK
     if args.add:
@@ -135,21 +136,24 @@ def main():
         options['task_end'] = args.add[3]
 
         # add task
-        add_task(options, command, logger)
+        TerminalController.add_task(options, command, logger)
 
         # save changes
-        save_task(options, command, DATA_FILE, logger)
+        Data.save_to_csv_file(options, command, DATA_FILE, logger)
 
     # DELETE TASK
-    if args.delete:
+    if args.delete and args.task:
         options['option'] = '--delete'
-        options['task_number'] = args.delete[0]
+        options['task_number'] = args.task[0]
 
         # delete task
-        delete_task(options, command, logger)
+        TerminalController. delete_task(options, command, logger)
 
         # save change
-        save_task(options, command, DATA_FILE, logger)
+        Data.save_to_csv_file(options, command, DATA_FILE, logger)
+    elif args.delete and not args.task:
+        print('You must specify a task number')
+        print('Usage: -t <task_number> -d')
 
     # UPDATE TASK
     if args.task and args.update:
@@ -161,10 +165,13 @@ def main():
         options['task_end'] = args.update[3]
 
         # update task
-        update_task(options, command, logger)
+        TerminalController.update_task(options, command, logger)
 
         # save change
-        save_task(options, command, DATA_FILE, logger)
+        Data.save_to_csv_file(options, command, DATA_FILE, logger)
+    elif args.update and not args.task:
+        print('You must specify a task number')
+        print('Usage: -t <task_number> -u <task_name> <task_note> <start> <due>')
 
 
 if __name__ == '__main__':

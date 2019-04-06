@@ -1,19 +1,37 @@
-# test_commands.py
-""" This modules is used to test all the supported commands """
+# test_args.py
+"""
+This module tests all the command line args that are
+passed ot todo.py file.
 
+The following arguments will be tested:
+
+
+-i --interactive
+-t --task <task_number>
+-l --list
+-l -t <task_number>
+-u --update <task_name> <task_note> <task_start> <task_due>  -t <task_number>
+-d --delete -t <task_number>
+-a --add <task_name> <task_note> <task_start> <task_due>
+-m --mark <status> -t <task_number>
+--name <task_name> -t <task_number>
+--note <task_note> -t <task_number>
+--start <task_start> -t <task_number>
+--due <task_due> -t <task_number>
+
+"""
 # standard lib imports
 import unittest
 from datetime import date
+
 # local imports
 from todo import DATA_FILE
-from src.task import Task
-from src.display import display_tasks
-from src.command import CommandLine
-from src.command import Command
-from src.todocmd import load_tasks
-from src.todocmd import add_task
-from src.todocmd import delete_task
-from src.todocmd import update_task
+from src.model.task import Task
+from src.view.termview import TerminalView
+from src.cmdargs import CommandArgs
+from src.controller.basectrl import BaseController
+from src.initdata import Data
+from src.controller.termctrl import TerminalController
 
 
 class TestCommandArgs(unittest.TestCase):
@@ -29,10 +47,10 @@ class TestCommandArgs(unittest.TestCase):
         task3 = Task('Task3', 'task3 note', date.today(), date.today())
 
         # command
-        self.com = Command([task1, task2, task3])
+        self.com = BaseController([task1, task2, task3])
 
         # initiate the argparse
-        self.parse = CommandLine()
+        self.parse = CommandArgs()
 
     def test_cmd_start(self):
         """ Test if the command line start is passed """
@@ -52,12 +70,12 @@ class TestCommandArgs(unittest.TestCase):
 
         # get a list of tasks and check if is not empty
         if args.tasks:
-            list_of_tasks = load_tasks(DATA_FILE)
+            list_of_tasks = Data.load_from_csv_file(DATA_FILE)
 
         self.assertTrue(len(list_of_tasks) > 0)
 
         # test first task in the list
-        tasks = load_tasks(DATA_FILE)
+        tasks = Data.load_from_csv_file(DATA_FILE)
         self.assertIsInstance(tasks[0], Task)
 
     def test_cmd_list_one_task(self):
@@ -70,7 +88,7 @@ class TestCommandArgs(unittest.TestCase):
 
         # list task
         task = self.com.tasks[args.task[0]]
-        self.assertTrue(display_tasks([task]))
+        self.assertTrue(TerminalView.display_tasks([task]))
 
     def test_cmd_add_new_task(self):
         """ Test add new task using comand args """
@@ -93,7 +111,7 @@ class TestCommandArgs(unittest.TestCase):
         self.options['task_note'] = args.add[1]
         self.options['task_start'] = args.add[2]
         self.options['task_end'] = args.add[3]
-        add_task(self.options, self.com)
+        TerminalController.add_task(self.options, self.com)
 
     def test_cmd_delete_task(self):
         """ Test delete task from command """
@@ -110,7 +128,7 @@ class TestCommandArgs(unittest.TestCase):
 
         # get the first task
         task = self.com.tasks[0]
-        delete_task(self.options, self.com)
+        TerminalController.delete_task(self.options, self.com)
         self.assertFalse(task.name == self.com.tasks[0].name)
 
     def test_cmd_update_task(self):
@@ -134,7 +152,7 @@ class TestCommandArgs(unittest.TestCase):
         self.options['task_note'] = args.update[1]
         self.options['task_start'] = args.update[2]
         self.options['task_end'] = args.update[3]
-        update_task(self.options, self.com)
+        TerminalController.update_task(self.options, self.com)
         self.assertTrue(self.com.tasks[0].name == 'name')
 
     def test_cmd_select_task(self):
@@ -165,11 +183,32 @@ class TestCommandArgs(unittest.TestCase):
         self.options['task_note'] = task0.note
         self.options['task_start'] = task0.start_date
         self.options['task_end'] = task0.end_date
-        update_task(self.options, self.com)
+        TerminalController.update_task(self.options, self.com)
 
         # test if the name has changed
         self.assertNotEqual(previous_name, self.com.tasks[0].name)
 
+    def test_cmd_note_task(self):
+        """ Test if task name is updated"""
+        # passed args
+        args = self.parse.parse_args(['-t', 0, '--note', 'note'])
 
-if __name__ == '__main__':
-    unittest.main()
+        # test given arguments
+        self.assertTrue(args.task[0] == 0)
+        self.assertTrue(args.task_note[0] == 'note')
+
+        # get task 0
+        task0 = self.com.tasks[0]
+        previous_note = task0.note
+
+        # update task
+        self.options['option'] = 'update'
+        self.options['task_number'] = args.task[0]
+        self.options['task_name'] = task0.name
+        self.options['task_note'] = args.task_note[0]
+        self.options['task_start'] = task0.start_date
+        self.options['task_end'] = task0.end_date
+        TerminalController.update_task(self.options, self.com)
+
+        # test if the name has changed
+        self.assertNotEqual(previous_note, self.com.tasks[0].note)
