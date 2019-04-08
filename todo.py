@@ -171,7 +171,13 @@ def main():
         Data.save_to_csv_file(options, command, DATA_FILE, logger)
     elif args.update and not args.task:
         print('You must specify a task number')
-        print('Usage: -t <task_number> -u <task_name> <task_note> <start> <due>')
+        print('Usage: -t <task_number> -u <name> <note> <start> <due>')
+
+    # UPDATE TASK NAME
+    if args.task and args.task_name:
+        options['option'] = '--name'
+        options['task_number'] = args.task[0]
+        options['task_name'] = args.task_name[0]
 
 
 if __name__ == '__main__':
