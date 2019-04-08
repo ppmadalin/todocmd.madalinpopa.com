@@ -1,3 +1,4 @@
+<<<<<<< HEAD:tests/test_controller.py
 # test_controller.py
 """
 This modules is used to test all the Terminal
@@ -14,16 +15,33 @@ Actions that will be tested are the following:
 """
 
 # standard lib imports
+=======
+# test_interface.py
+# standard library
+from datetime import date
+>>>>>>> 599b1dd8cbcd68de13d7276fcf0f99857cbebb12:tests/test_interface.py
 import unittest
 from datetime import date
 
 # local imports
 from todo import DATA_FILE
 from src.exception import InvalidTaskNumber
+<<<<<<< HEAD:tests/test_controller.py
 from src.model.task import Task
 from src.controller.basectrl import BaseController
 from src.initdata import Data
 from src.controller.termctrl import TerminalController
+=======
+from src.command import Command
+from src.task import Task
+from src.todocmd import load_tasks
+from src.todocmd import add_task
+from src.todocmd import update_task
+from src.todocmd import delete_task
+from src.todocmd import list_tasks
+from src.todocmd import save_task
+from main import DATA_FILE
+>>>>>>> 599b1dd8cbcd68de13d7276fcf0f99857cbebb12:tests/test_interface.py
 
 
 class TestTerminalController(unittest.TestCase):
@@ -49,7 +67,11 @@ class TestTerminalController(unittest.TestCase):
     def test_load_tasks(self):
         """ Tests if a list of tasks is returned """
         # load tasks
+<<<<<<< HEAD:tests/test_controller.py
         task_list = Data.load_from_csv_file(DATA_FILE)
+=======
+        task_list = load_tasks(DATA_FILE)
+>>>>>>> 599b1dd8cbcd68de13d7276fcf0f99857cbebb12:tests/test_interface.py
 
         # test that returns a list
         self.assertIsInstance(task_list, list)
@@ -141,9 +163,15 @@ class TestTerminalController(unittest.TestCase):
 
     def test_save_tasks(self):
         """ Test if the tasks are saved """
+<<<<<<< HEAD:tests/test_controller.py
         save = Data.save_to_csv_file(self.inputs, self.com, DATA_FILE)
         self.assertTrue(save)
 
 
 if __name__ == '__main__':
     unittest.main()
+=======
+        with self.assertRaises(SystemExit) as e:
+            save_task(self.inputs, self.com, DATA_FILE)
+            self.assertEqual(e.exception, 0)
+>>>>>>> 599b1dd8cbcd68de13d7276fcf0f99857cbebb12:tests/test_interface.py

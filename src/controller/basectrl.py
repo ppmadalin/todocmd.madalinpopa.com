@@ -1,7 +1,12 @@
+<<<<<<< HEAD:src/controller/basectrl.py
 # basectrl.py
 """
 Base Controller is the module where all the basic
 command are defined.
+=======
+# command.py
+from src.task import Task
+>>>>>>> 599b1dd8cbcd68de13d7276fcf0f99857cbebb12:src/command.py
 
 Some examples of these comands are the following:
 
