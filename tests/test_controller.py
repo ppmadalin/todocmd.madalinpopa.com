@@ -18,12 +18,12 @@ import unittest
 from datetime import date
 
 # local imports
-from todo import DATA_FILE
-from src.exception import InvalidTaskNumber
-from src.model.task import Task
 from src.controller.basectrl import BaseController
-from src.initdata import Data
 from src.controller.termctrl import TerminalController
+from src.exception import InvalidTaskNumber
+from src.initdata import Data
+from src.model.task import Task
+from todo import DATA_FILE
 
 
 class TestTerminalController(unittest.TestCase):

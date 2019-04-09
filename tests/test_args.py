@@ -212,3 +212,12 @@ class TestCommandArgs(unittest.TestCase):
 
         # test if the name has changed
         self.assertNotEqual(previous_note, self.com.tasks[0].note)
+
+    def test_update_task_start(self):
+        pass
+
+    def test_update_task_due(self):
+        pass
+
+    def test_update_task_status(self):
+        pass
