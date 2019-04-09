@@ -1,8 +1,13 @@
 # task.py
 import uuid
+from typing import *
 
 
 class Task:
+
+    _name: str
+    _note: str
+
     def __init__(self,
                  name,
                  note=None,
@@ -10,28 +15,28 @@ class Task:
                  end_date=None,
                  status=False):
 
-        self.__name = name
-        self.__note = note
-        self.__start_date = start_date
-        self.__end_date = end_date
-        self.__status = status
-        self.__id = str(uuid.uuid4())
+        self._name = name
+        self._note = note
+        self._start_date = start_date
+        self._end_date = end_date
+        self._status = status
+        self._id = str(uuid.uuid4())
 
     @property
     def name(self):
-        return self.__name
+        return self._name
 
     @name.setter
-    def name(self, value):
-        self.__name = value
+    def name(self, value: List[str]):
+        self._name = value
 
     @property
     def note(self):
-        return self.__note
+        return self._note
 
     @note.setter
     def note(self, value):
-        self.__note = value
+        self._note = value
 
     @property
     def start_date(self):
