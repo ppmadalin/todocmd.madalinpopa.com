@@ -56,20 +56,24 @@ class TerminalView:
 
     @staticmethod
     def task_header():
-        """ Display the task heaser """
-        print(f'{"No.":<5}{"Task":<30}{"Start":<30}{"Due":<30}{"Status":<30}')
-        print(f'{"=":=<5}{"=":=<30}{"=":=<30}{"=":=<30}{"=":=<30}')
+        """ Display the task header """
+        print()
+        print(f'{"=":=<5}|{"=":=<25}|{"=":=<25}|{"=":=<25}|{"=":=<25}|{"=":=<6}|')
+        print(f'{"No.":<5}|{"Task":<25}|{"Note":<25}|{"Start":<25}|{"Due":<25}|{"Status":<6}|')
+        print(f'{"=":=<5}|{"=":=<25}|{"=":=<25}|{"=":=<25}|{"=":=<25}|{"=":=<6}|')
 
     @staticmethod
     def display_tasks(task_list):
         """ Display the task list """
         for nr, task in enumerate(task_list):
             name = task.name
+            note = task.note
             start = task.start_date
             due = task.end_date
             if task.status == 'True':
                 mark = "[x]"
             else:
                 mark = "[ ]"
-            print(f'{nr:<3}{name:<30}{start:<30}{due:<30}{mark:<30}')
+            print(f'{nr:<5}|{name:<25}|{note:<25}|{start:<25}|{due:<25}|{mark:<6}|')
+        print()
         return True

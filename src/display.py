@@ -62,10 +62,11 @@ def display_tasks(task_list):
     """ Display the task list """
     for nr, task in enumerate(task_list):
         name = task.name
+        note = task.note
         start = task.start_date
         due = task.end_date
         status = task.status
-        print(f'{nr:<3}{name:<30}{start:<30}{due:<30}{status:<30}')
+        print(f'{nr:<3}{name:<30}{note:<30}{start:<30}{due:<30}{status:<30}')
 
 
 if __name__ == '__main__':
