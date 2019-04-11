@@ -5,12 +5,17 @@ line operations
 """
 
 from argparse import ArgumentParser
+from src.initdata import Data
 
 
 class CommandArgs(ArgumentParser):
 
-    def __init__(self):
+    options: dict
+
+    def __init__(self, DATA_FILE):
         super().__init__()
+        self.DATA_FILE = DATA_FILE
+        self.options = dict()
         self.prog = 'TO-DO'
         self.description = 'Simple TO-DO app'
 
@@ -81,3 +86,81 @@ class CommandArgs(ArgumentParser):
                           help='Task due date',
                           action='store',
                           nargs=1, )
+
+    def list_tasks(self, controller, command, logger):
+        """
+        List all the tasks
+        """
+        args = self.parse_args()
+        if args.tasks:
+            self.options['option'] = '-l --list'
+            controller.list_tasks(self.options, command, logger)
+
+    def add_task(self, controller, command, logger):
+        """
+        Add a new task in list
+        """
+        args = self.parse_args()
+        if args.add:
+            self.options['option'] = '--add'
+            self.options['task_name'] = args.add[0]
+            self.options['task_note'] = args.add[1]
+            self.options['task_start'] = args.add[2]
+            self.options['task_end'] = args.add[3]
+            controller.add_task(self.options, command, logger)
+            Data.save_to_csv_file(self.options,
+                                  command, self.DATA_FILE, logger)
+
+    def delete_task(self, controller, command, logger):
+        """
+        Delete a specific task
+        """
+        args = self.parse_args()
+        if args.delete and args.task:
+            self.options['option'] = '--delete'
+            self.options['task_number'] = args.task[0]
+            controller.delete_task(self.options, command, logger)
+            Data.save_to_csv_file(self.options,
+                                  command, self.DATA_FILE, logger)
+        elif args.delete and not args.task:
+            print('You must specify a task number')
+            print('Usage: -t <task_number> -d')
+
+    def update_task(self, controller, command, logger):
+        """
+        Update a specific task
+        """
+        args = self.parse_args()
+        if args.task and args.update:
+            self.options['option'] = '-u'
+            self.options['task_number'] = args.task[0]
+            self.options['task_name'] = args.update[0]
+            self.options['task_note'] = args.update[1]
+            self.options['task_start'] = args.update[2]
+            self.options['task_end'] = args.update[3]
+            controller.update_task(self.options, command, logger)
+            Data.save_to_csv_file(self.options,
+                                  command, self.DATA_FILE, logger)
+        elif args.update and not args.task:
+            print('You must specify a task number')
+            print('Usage: -t <task_number> -u <name> <note> <start> <due>')
+
+    def update_task_name(self, controller, command, logger):
+        """
+        Update task's name
+        """
+        args = self.parse_args()
+        if args.task and args.task_name:
+            self.options['option'] = '--name'
+            self.options['task_number'] = args.task[0]
+            self.options['task_name'] = args.task_name[0]
+            controller.update_task(self.options, command, logger)
+            Data.save_to_csv_file(self.options,
+                                  command, self.DATA_FILE, logger)
+        elif args.update and not args.task:
+            print('You must specify a task number')
+            print('Usage: -t <task_number> --name <task_name>')
+
+
+class CommandOptions:
+    pass

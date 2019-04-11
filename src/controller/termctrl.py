@@ -39,15 +39,15 @@ class TerminalController:
         if int(task_number) >= len(command.tasks):
             message = f'Pick a task between 0 and {len(command.tasks)}'
             raise(InvalidTaskNumber(message))
-        task_name = options['task_name']
-        task_note = options['task_note']
-        task_start = options['task_start']
-        task_due = options['task_end']
         task = command.get(int(task_number))
-        task.name = task_name
-        task.note = task_note
-        task.start_date = task_start
-        task.end_date = task_due
+        if options.get('task_name') is not None:
+            task.name = options['task_name']
+        elif options.get('task_note') is not None:
+            task.note = options['task_note']
+        elif options.get('task_start') is not None:
+            task.start_date = options['task_start']
+        elif options.get('task_end') is not None:
+            task.end_date = options['task_end']
         command.update(task)
         if logger:
             logger.info(f'the following task was updated {task}')
@@ -69,6 +69,26 @@ class TerminalController:
         if logger:
             logger.info(f'the following task was deleted: {task}')
         print(f'You have deleted task {task}')
+
+    @staticmethod
+    def mark_task(options, command, logger=None):
+        """ Mark a task as done """
+        if logger:
+            logger.info(f'user command is {options["option"]}')
+        task_number = str(options['task_number'])
+        if not task_number.isdigit():
+            raise(InvalidTaskNumber('Please pick a number..'))
+        if int(task_number) >= len(command.tasks):
+            message = f'Pick a task between 0 and {len(command.tasks)}'
+            raise(InvalidTaskNumber(message))
+        task = command.get(int(task_number))
+        if options['task_status'] == 'done':
+            task.status = True
+        else:
+            task.status = False
+        if logger:
+            message = f'the status of the following task was updated: {task}'
+            logger.info(message)
 
     @staticmethod
     def list_tasks(options, command, logger=None):
