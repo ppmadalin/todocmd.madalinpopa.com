@@ -1,0 +1,8 @@
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded
+todocmd - DEBUG - tasks were loaded
+todocmd - INFO - user command is 4
+todocmd - INFO - user command is 5
