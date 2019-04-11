@@ -110,74 +110,29 @@ def main():
     command = BaseController(Data.load_from_csv_file(DATA_FILE, logger))
 
     # STEP 3: initiate command line args
-    cmd = CommandArgs()
+    cmd = CommandArgs(DATA_FILE)
 
     # STEP 4: parse args
     args = cmd.parse_args()
-
-    # options
-    options = {}
 
     # START INTERFACE
     if args.interactive:
         interface()
 
     # LIST TASKS
-    if args.tasks:
-        options['option'] = '-l --list'
-        TerminalController.list_tasks(options, command, logger)
+    cmd.list_tasks(TerminalController, command, logger)
 
     # ADD NEW TASK
-    if args.add:
-        options['option'] = '--add'
-        options['task_name'] = args.add[0]
-        options['task_note'] = args.add[1]
-        options['task_start'] = args.add[2]
-        options['task_end'] = args.add[3]
-
-        # add task
-        TerminalController.add_task(options, command, logger)
-
-        # save changes
-        Data.save_to_csv_file(options, command, DATA_FILE, logger)
+    cmd.add_task(TerminalController, command, logger)
 
     # DELETE TASK
-    if args.delete and args.task:
-        options['option'] = '--delete'
-        options['task_number'] = args.task[0]
-
-        # delete task
-        TerminalController. delete_task(options, command, logger)
-
-        # save change
-        Data.save_to_csv_file(options, command, DATA_FILE, logger)
-    elif args.delete and not args.task:
-        print('You must specify a task number')
-        print('Usage: -t <task_number> -d')
+    cmd.delete_task(TerminalController, command, logger)
 
     # UPDATE TASK
-    if args.task and args.update:
-        options['option'] = '-u'
-        options['task_number'] = args.task[0]
-        options['task_name'] = args.update[0]
-        options['task_note'] = args.update[1]
-        options['task_start'] = args.update[2]
-        options['task_end'] = args.update[3]
-
-        # update task
-        TerminalController.update_task(options, command, logger)
-
-        # save change
-        Data.save_to_csv_file(options, command, DATA_FILE, logger)
-    elif args.update and not args.task:
-        print('You must specify a task number')
-        print('Usage: -t <task_number> -u <name> <note> <start> <due>')
+    cmd.delete_task(TerminalController, command, logger)
 
     # UPDATE TASK NAME
-    if args.task and args.task_name:
-        options['option'] = '--name'
-        options['task_number'] = args.task[0]
-        options['task_name'] = args.task_name[0]
+    cmd.update_task_name(TerminalController, command, logger)
 
 
 if __name__ == '__main__':

@@ -204,14 +204,11 @@ class TestCommandArgs(unittest.TestCase):
         # update task
         self.options['option'] = 'update'
         self.options['task_number'] = args.task[0]
-        self.options['task_name'] = task0.name
         self.options['task_note'] = args.task_note[0]
-        self.options['task_start'] = task0.start_date
-        self.options['task_end'] = task0.end_date
         TerminalController.update_task(self.options, self.com)
 
         # test if the name has changed
-        self.assertNotEqual(previous_note, self.com.tasks[0].note)
+        self.assertNotEqual(previous_note, task0.note)
 
     def test_update_task_start(self):
         """ Test if task start date is updated"""
@@ -229,10 +226,7 @@ class TestCommandArgs(unittest.TestCase):
         # update task
         self.options['option'] = 'update'
         self.options['task_number'] = args.task[0]
-        self.options['task_name'] = task0.name
-        self.options['task_note'] = task0.note
         self.options['task_start'] = args.task_start[0]
-        self.options['task_end'] = task0.end_date
         TerminalController.update_task(self.options, self.com)
 
         # test if the name has changed
@@ -254,9 +248,6 @@ class TestCommandArgs(unittest.TestCase):
         # update task
         self.options['option'] = 'update'
         self.options['task_number'] = args.task[0]
-        self.options['task_name'] = task0.name
-        self.options['task_note'] = task0.note
-        self.options['task_start'] = task0.start_date
         self.options['task_end'] = args.task_due[0]
         TerminalController.update_task(self.options, self.com)
 
