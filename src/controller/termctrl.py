@@ -42,11 +42,11 @@ class TerminalController:
         task = command.get(int(task_number))
         if options.get('task_name') is not None:
             task.name = options['task_name']
-        elif options.get('task_note') is not None:
+        if options.get('task_note') is not None:
             task.note = options['task_note']
-        elif options.get('task_start') is not None:
+        if options.get('task_start') is not None:
             task.start_date = options['task_start']
-        elif options.get('task_end') is not None:
+        if options.get('task_end') is not None:
             task.end_date = options['task_end']
         command.update(task)
         if logger:
@@ -84,8 +84,10 @@ class TerminalController:
         task = command.get(int(task_number))
         if options['task_status'] == 'done':
             task.status = True
-        else:
+        elif options['task_status'] == 'undone':
             task.status = False
+        else:
+            print("Unknown command.. ")
         if logger:
             message = f'the status of the following task was updated: {task}'
             logger.info(message)

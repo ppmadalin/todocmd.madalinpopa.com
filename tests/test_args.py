@@ -50,7 +50,7 @@ class TestCommandArgs(unittest.TestCase):
         self.com = BaseController([task1, task2, task3])
 
         # initiate the argparse
-        self.parse = CommandArgs()
+        self.parse = CommandArgs(DATA_FILE)
 
     def test_cmd_start(self):
         """ Test if the command line start is passed """

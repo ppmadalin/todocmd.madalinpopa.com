@@ -157,9 +157,73 @@ class CommandArgs(ArgumentParser):
             controller.update_task(self.options, command, logger)
             Data.save_to_csv_file(self.options,
                                   command, self.DATA_FILE, logger)
-        elif args.update and not args.task:
+        elif args.task_name and not args.task:
             print('You must specify a task number')
             print('Usage: -t <task_number> --name <task_name>')
+
+    def update_task_note(self, controller, command, logger):
+        """
+        Update task's note
+        """
+        args = self.parse_args()
+        if args.task and args.task_note:
+            self.options['option'] = '--note'
+            self.options['task_number'] = args.task[0]
+            self.options['task_start'] = args.task_note[0]
+            controller.update_task(self.options, command, logger)
+            Data.save_to_csv_file(self.options,
+                                  command, self.DATA_FILE, logger)
+        elif args.task_note and not args.task:
+            print('You must specify a task number')
+            print('Usage: -t <task_number> --note <task_note>')
+
+    def update_task_start(self, controller, command, logger):
+        """
+        Update task's start date
+        """
+        args = self.parse_args()
+        if args.task and args.task_start:
+            self.options['option'] = '--start'
+            self.options['task_number'] = args.task[0]
+            self.options['task_start'] = args.task_start[0]
+            controller.update_task(self.options, command, logger)
+            Data.save_to_csv_file(self.options,
+                                  command, self.DATA_FILE, logger)
+        elif args.task_start and not args.task:
+            print('You must specify a task number')
+            print('Usage: -t <task_number> --start <task_start_date>')
+
+    def update_task_due(self, controller, command, logger):
+        """
+        Update task's due date
+        """
+        args = self.parse_args()
+        if args.task and args.task_due:
+            self.options['option'] = '--due'
+            self.options['task_number'] = args.task[0]
+            self.options['task_end'] = args.task_due[0]
+            controller.update_task(self.options, command, logger)
+            Data.save_to_csv_file(self.options,
+                                  command, self.DATA_FILE, logger)
+        elif args.task_start and not args.task:
+            print('You must specify a task number')
+            print('Usage: -t <task_number> --start <task_start_date>')
+
+    def mark_task(self, controller, command, logger):
+        """
+        Mark task
+        """
+        args = self.parse_args()
+        if args.task and args.mark:
+            self.options['option'] = '--mark'
+            self.options['task_number'] = args.task[0]
+            self.options['task_status'] = args.mark[0]
+            controller.mark_task(self.options, command, logger)
+            Data.save_to_csv_file(self.options,
+                                  command, self.DATA_FILE, logger)
+        elif args.mark and not args.task:
+            print('You must specify a task number')
+            print('Usage: -t <task_number> --mark done/undone')
 
 
 class CommandOptions:

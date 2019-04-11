@@ -67,6 +67,9 @@ class TerminalView:
             name = task.name
             start = task.start_date
             due = task.end_date
-            status = task.status
-            print(f'{nr:<3}{name:<30}{start:<30}{due:<30}{status:<30}')
+            if task.status == 'True':
+                mark = "[x]"
+            else:
+                mark = "[ ]"
+            print(f'{nr:<3}{name:<30}{start:<30}{due:<30}{mark:<30}')
         return True

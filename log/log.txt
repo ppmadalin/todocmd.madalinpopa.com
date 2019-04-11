@@ -1,7 +1,0 @@
-todocmd - DEBUG - tasks were loaded
-todocmd - DEBUG - tasks were loaded
-todocmd - DEBUG - tasks were loaded
-<<<<<<< HEAD
-=======
-todocmd - INFO - user command is -l --list
->>>>>>> 780ac47a870d76f9cbfd961c7071b2fd21d6de31

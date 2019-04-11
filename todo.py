@@ -129,10 +129,22 @@ def main():
     cmd.delete_task(TerminalController, command, logger)
 
     # UPDATE TASK
-    cmd.delete_task(TerminalController, command, logger)
+    cmd.update_task(TerminalController, command, logger)
 
     # UPDATE TASK NAME
     cmd.update_task_name(TerminalController, command, logger)
+
+    # UPDATE TASK NOTE
+    cmd.update_task_note(TerminalController, command, logger)
+
+    # UPDATE TASK START DATE
+    cmd.update_task_start(TerminalController, command, logger)
+
+    # UPDATE TASK DUE DATE
+    cmd.update_task_due(TerminalController, command, logger)
+
+    # MARK TASK
+    cmd.mark_task(TerminalController, command, logger)
 
 
 if __name__ == '__main__':
